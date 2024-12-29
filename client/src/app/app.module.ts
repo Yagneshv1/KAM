@@ -10,6 +10,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -19,6 +20,15 @@ import {MatTreeModule} from '@angular/material/tree';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { DashBoardComponent } from './components/dashboard/dashboard.component';
 import { LeadManagementComponent } from './components/lead-management/lead-management.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { TableComponent } from './components/table/table.component';
+import { registerAllModules } from 'handsontable/registry';
+import { AddLeadDialogComponent } from './components/dialog/add-lead/add-lead-dialog.component';
+import { LeadSummaryComponent } from './components/lead-management/lead-summary/lead-summary.component';
+import { LeadPocComponent } from './components/lead-management/lead-poc/lead-poc.component';
+import { AddLeadPocDialogComponent } from './components/dialog/add-lead-poc/add-lead-poc.component';
+
+registerAllModules();
 
 @NgModule({
   declarations: [
@@ -26,7 +36,12 @@ import { LeadManagementComponent } from './components/lead-management/lead-manag
     LoginComponent,
     SignUpComponent,
     DashBoardComponent,
-    LeadManagementComponent
+    LeadManagementComponent,
+    TableComponent,
+    AddLeadDialogComponent,
+    LeadSummaryComponent,
+    LeadPocComponent,
+    AddLeadPocDialogComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -44,7 +59,9 @@ import { LeadManagementComponent } from './components/lead-management/lead-manag
     MatDividerModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatTreeModule
+    MatTreeModule,
+    AgGridModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

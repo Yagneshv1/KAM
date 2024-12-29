@@ -1,0 +1,13 @@
+<div class="container-style">
+    <ag-grid-angular
+        style="height: 100%;"
+        class="ag-theme-alpine grid"
+        [columnDefs]="columnDefs"
+        [rowData]="rowData"
+        [pagination]="true"
+        [paginationPageSize]="25"
+        [enableCellTextSelection]="true"
+        [paginationPageSizeSelector]="[10,25,50,100,200]"
+        (cellClicked)="onCellClicked($event)"
+    ></ag-grid-angular>
+</div>

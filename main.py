@@ -80,14 +80,58 @@ def signup():
     except Exception as e:
         return jsonify({"message": "Error registering the user", "status": "error"}), 400
 
-@app.route('/api/leads', methods=['GET'])
+@app.route('/api/leads', methods=['GET', 'POST'])
 @jwt_required()
-def protected():
+def get_leads():
     db_instance = PostgresqlDB()
+    if request.method == 'GET':
+        query = text("SELECT json_agg(leads) from leads")
+        leads = db_instance.execute_dql_commands(query).fetchone()
 
-    query = text("SELECT json_agg(leads) from leads")
-    leads = db_instance.execute_dql_commands(query)
-    print(leads)
+        leads_data = []
+        if not leads or not leads[0]:
+            pass
+        else:
+            for row in leads[0]:
+                leads_data.append(dict(row.items()))
+
+        return jsonify({"data": leads_data, "status": "success"}), 200
+    else:
+        leadData = request.get_json()
+        query = text('''insert into leads(lead_name, lead_status, lead_address, lead_city, lead_state, lead_pincode, 
+                     email, website, lead_domain, call_frequency, last_call) 
+                     values(:name, :status, :address, :city, :state, :pincode, :email, :website, :domain, :call_frequency, null)''')
+
+        db_instance.execute_ddl_and_dml_commands(query, leadData)
+        return jsonify({"message": "Lead added successfully!", "status": "success"}), 200
+    
+@app.route('/api/lead/<int:id>/poc-info', methods=['GET', 'POST'])
+@jwt_required()
+def get_lead_poc(id):
+    db_instance = PostgresqlDB()
+    if request.method == 'GET':
+        query = text("SELECT json_agg(Pocs) from Pocs WHERE lead_id=:id")
+        leads = db_instance.execute_dql_commands(query, {'id': id}).fetchone()
+
+        leads_data = []
+        if not leads or not leads[0]:
+            pass
+        else:
+            for row in leads[0]:
+                leads_data.append(dict(row.items()))
+
+        return jsonify({"data": leads_data, "status": "success"}), 200
+    else:
+        pocData = request.get_json()
+        pocData['lead_id'] = int(id)
+        pocData['from_date'] = date(*convertDateStringToParts(pocData['from_date']))
+        pocData['to_date'] = date(*convertDateStringToParts(pocData['to_date']))
+
+        query = text('''insert into Pocs(lead_id, poc_name, poc_age, poc_gender, poc_mobile, poc_email, poc_from, poc_to)
+                     values(:lead_id, :name, :age, :gender, :mobile, :email, :from_date, :to_date)''')
+
+        db_instance.execute_ddl_and_dml_commands(query, pocData)
+        return jsonify({"message": "POC is added successfully!", "status": "success"}), 200
 
 class PostgresqlDB:
     def __init__(self):

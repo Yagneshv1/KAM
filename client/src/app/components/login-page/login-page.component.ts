@@ -23,7 +23,7 @@ export class LoginComponent {
       this.authService.saveToken(response.access_token)
       this.loginMessage = 'Login Successful! Redirecting to home page'
       setTimeout(() => {
-        this.router.navigate(['/home'])
+        this.router.navigate(['/leads'])
       }, 5000)
     }, (err) => {
       this.loginMessage = err.error.message

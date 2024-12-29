@@ -1,0 +1,35 @@
+<div class="dialog-size-alignment-styling" mat-dialog-content [formGroup]="form">
+    <p>Add New Poc Details:</p>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Name">
+  </mat-form-field>
+  <mat-form-field>
+      <mat-label>Age</mat-label>
+      <input matInput formControlName="age" placeholder="Status">
+  </mat-form-field>
+  <mat-form-field>
+      <mat-label>Gender</mat-label>
+      <input matInput formControlName="gender" >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Mobile</mat-label>
+    <input matInput formControlName="mobile" >
+</mat-form-field>
+<mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" >
+</mat-form-field>
+<mat-form-field>
+    <mat-label>From</mat-label>
+    <input matInput formControlName="from_date" type="date">
+</mat-form-field>
+<mat-form-field>
+    <mat-label>To</mat-label>
+    <input matInput formControlName="to_date" type="date">
+</mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="onSubmit()" [disabled]="this.form.invalid">Add</button>
+</div>
