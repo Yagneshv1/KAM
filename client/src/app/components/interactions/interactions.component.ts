@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { LeadService } from 'src/app/services/lead.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { AddInteractionDialogComponent } from '../dialog/add-interaction/add-interaction-dialog.component';
@@ -27,22 +25,22 @@ export class InteractionsComponent {
         { 
             field: 'interaction_time',
             headerName: "Interaction Time", 
-            filter: 'agNumberColumnFilter',
-            filterParams: {
-                buttons: ['clear', 'apply'],
-                closeOnApply: true,
-            } as ITextFilterParams,
+            filter: 'agDateColumnFilter',
+            valueGetter: (params: any) => {
+                const utcDateString = params.data.interaction_time;
+                const localDate = new Date(utcDateString)
+                return localDate;
+            },
+            valueFormatter: (params: any) => {
+                return params.value ? params.value.toLocaleString() : '';
+            },
             minWidth: 210,
             wrapText:true,
         },
         { 
             field: 'interaction_mode',
-            headerName: "Mode", 
-            filter: 'agTextColumnFilter',
-            filterParams: {
-                buttons: ['clear', 'apply'],
-                closeOnApply: true,
-            } as ITextFilterParams,
+            headerName: "Interaction Mode", 
+            filter: true,
             minWidth: 210,
             wrapText:true,
         },
@@ -71,11 +69,11 @@ export class InteractionsComponent {
         { 
             field: 'order_details',
             headerName: "Order Details",
-            filter: 'agNumberColumnFilter',
+            filter: 'agTextColumnFilter',
             filterParams: {
                 buttons: ['clear', 'apply'],
                 closeOnApply: true,
-            } as INumberFilterParams,
+            } as ITextFilterParams,
             minWidth: 210,
             wrapText:true,
         }
@@ -85,9 +83,7 @@ export class InteractionsComponent {
     public leadId: string = '';
 
     constructor(private interactionService: InteractionService,
-        private activatedRoute: ActivatedRoute,
-        private dialog: MatDialog,
-        private router: Router
+        private dialog: MatDialog
     ) {
 
     }

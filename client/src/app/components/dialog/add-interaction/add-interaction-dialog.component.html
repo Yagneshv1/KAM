@@ -1,25 +1,29 @@
 <div class="dialog-size-alignment-styling" mat-dialog-content [formGroup]="form">
-    <p>Add new interaction details:</p>
+    <h2>Add new interaction and order details</h2>
     <mat-form-field>
       <mat-label>Lead ID</mat-label>
-      <input matInput formControlName="lead_id">
-  </mat-form-field>
-  <mat-form-field>
-      <mat-label>Time</mat-label>
-      <input matInput formControlName="time" type="datetime-local">
-  </mat-form-field>
-  <mat-form-field>
-      <mat-label>Mode</mat-label>
-      <input matInput formControlName="mode" >
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Details</mat-label>
-    <input matInput formControlName="details" >
-</mat-form-field>
-<mat-form-field>
-    <mat-label>POC</mat-label>
-    <input matInput formControlName="poc" >
-</mat-form-field>
+        <mat-select formControlName="lead_id" (selectionChange)="onLeadChange()">
+            <mat-option *ngFor="let lead of leadsInfo" [value]="lead.leadId">{{lead.leadName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Time</mat-label>
+        <input matInput formControlName="time" type="datetime-local">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Mode</mat-label>
+        <input matInput formControlName="mode" >
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Details</mat-label>
+        <input matInput formControlName="details" >
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>POC</mat-label>
+        <mat-select formControlName="poc">
+            <mat-option *ngFor="let poc of pocInfo" [value]="poc.pocId">{{poc.pocName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
 <div formArrayName="orders">
     <div *ngFor="let order of orders.controls; let i = index" [formGroupName]="i">
         <mat-form-field>

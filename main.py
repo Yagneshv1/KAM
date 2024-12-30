@@ -85,7 +85,14 @@ def signup():
 def get_leads():
     db_instance = PostgresqlDB()
     if request.method == 'GET':
-        query = text("SELECT json_agg(leads) from leads")
+        compact = request.args.get('compact')
+        query = None
+        if compact:
+            query = text('''with leads_info as (
+                         select lead_name, lead_id, poc_name, poc_id from leads natural join pocs)
+                         select json_agg(leads_info) from leads_info''')
+        else:
+            query = text("SELECT json_agg(leads) from leads")
         leads = db_instance.execute_dql_commands(query).fetchone()
 
         leads_data = []

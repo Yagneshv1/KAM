@@ -11,8 +11,11 @@ export class LeadService {
         private httpClient: HttpClient
     ) {}
 
-    getLeadsData() {
-        return this.httpClient.get(`${this.apiUrl}/leads`)
+    getLeadsData(compact: boolean = false) {
+        let url = `${this.apiUrl}/leads`
+        if (compact)
+            url += `?compact=${compact}`
+        return this.httpClient.get(url)
     }
 
     addNewLead(leadData: any) {

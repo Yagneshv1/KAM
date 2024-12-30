@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from '@angular/material/input';
+import { SetFilterModule } from 'ag-grid-enterprise';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
@@ -33,7 +34,10 @@ import { CallPlannerComponent } from './components/call-planner/call-planner.com
 import { PerformanceComponent } from './components/performance-metrics/performance-metrics.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './authInterceptor';
+import { ModuleRegistry } from 'ag-grid-community';
+import {MatSelectModule} from '@angular/material/select';
 
+ModuleRegistry.registerModules([SetFilterModule]);
 registerAllModules();
 
 @NgModule({
@@ -72,7 +76,8 @@ registerAllModules();
     MatProgressSpinnerModule,
     MatTreeModule,
     AgGridModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

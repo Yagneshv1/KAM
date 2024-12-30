@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { LeadService } from 'src/app/services/lead.service';
 
 @Component({
   selector: 'app-add-interaction-dialog',
@@ -15,20 +16,55 @@ export class AddInteractionDialogComponent implements OnInit {
     form!: FormGroup;
     constructor(private dialogRef: MatDialogRef<AddInteractionDialogComponent>,
         private fb: FormBuilder,
+        private leadService: LeadService,
         private datePipe: DatePipe
     ) {
 
     }
 
+    leadPocData: any = []
+    leadsInfo: any = []
+    pocInfo: any = []
+
     ngOnInit() {
         this.form = this.fb.group({
             lead_id: ['', Validators.required],
-            time: ['', Validators.required],
-            mode: [''],
+            time: [this.getCurrentDateTime(), Validators.required],
+            mode: ['', Validators.required],
             details: [''],
-            poc: [''],
+            poc: [{ value: '', disabled: true }, Validators.required],
             orders: new FormArray([])
         });
+
+        this.leadService.getLeadsData(true).subscribe((res: any) => {
+          this.leadPocData = res.data
+          this.leadPocData.map((lead: any) => {
+            this.leadsInfo.push({leadId: lead.lead_id, leadName: lead.lead_name})
+          })
+        })
+
+        this.form.get('lead_id')?.valueChanges.subscribe((leadId) => {
+          if (leadId) {
+            this.form.get('poc')?.enable();
+          } else {
+            this.form.get('poc')?.disable();
+          }
+        });
+    }
+
+    onLeadChange() {
+      const leadId = this.form.get('lead_id')?.value
+      this.leadPocData.map((lead: any) => {
+        if (lead.lead_id == leadId) 
+          this.pocInfo.push({pocName: lead.poc_name, pocId: lead.poc_id})
+      })
+    }
+
+    getCurrentDateTime() {
+      const formattedDate = new Date().toLocaleString()
+      const [day, month, year, hour, minute] = formattedDate.split(/[\s,\/:]+/);
+      const localDateTimeString = `${year}-${month}-${day}T${hour}:${minute}`;
+      return localDateTimeString;
     }
 
     get orders() {
@@ -38,7 +74,7 @@ export class AddInteractionDialogComponent implements OnInit {
     addOrder() {
         const orderGroup = this.fb.group({
             order_details: ['', Validators.required],
-            order_value: ['', [Validators.required, Validators.min(1)]]
+            order_value: ['', [Validators.required, Validators.min(0.01), Validators.maxLength(4)]]
         });
         this.orders.push(orderGroup);
     }

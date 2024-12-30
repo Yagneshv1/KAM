@@ -10,6 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class AddLeadDialogComponent implements OnInit {
     @Output() dataSubmitted = new EventEmitter<any>();
 
+    callFrequencies = ['Daily', 'Weekly', 'Bi-Weekly', 'Semi-Monthly', 'Monthly', 'Quarterly', 'Yearly']
     form!: FormGroup;
     constructor(private dialogRef: MatDialogRef<AddLeadDialogComponent>,
         private fb: FormBuilder
@@ -20,31 +21,28 @@ export class AddLeadDialogComponent implements OnInit {
     ngOnInit() {
         this.form = this.fb.group({
             name: ['', Validators.required],
-            status: ['', Validators.required],
-            address: [''],
+            address: ['', Validators.required],
             city: [''],
             state: [''],
-            pincode: [''],
-            email: [''],
-            website: [''],
-            doamin: [''],
-            call_frequency: [''],
-            last_call: ['']
+            pincode: ['', Validators.min(0)],
+            email: ['', Validators.email],
+            website: ['', Validators.pattern(/^https?:\/\/[^\s$.?#].[^\s]*$/i)],
+            domain: [''],
+            call_frequency: ['', Validators.required]
         });
     }
-
 
   onSubmit() {
     const leadData: any = {
       name: this.form.get('name')?.value,
-      status: this.form.get('status')?.value,
+      status: 'New',
       address: this.form.get('address')?.value,
       city: this.form.get('city')?.value,
       state: this.form.get('state')?.value,
       pincode: +this.form.get('pincode')?.value,
       email: this.form.get('email')?.value,
       website: this.form.get('website')?.value,
-      domain: this.form.get('doamin')?.value,
+      domain: this.form.get('domain')?.value,
       call_frequency: this.form.get('call_frequency')?.value
     };
     this.dataSubmitted.emit(leadData);

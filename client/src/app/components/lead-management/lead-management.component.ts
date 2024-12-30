@@ -20,17 +20,14 @@ export class LeadManagementComponent {
                 buttons: ['clear', 'apply'],
                 closeOnApply: true,
             } as ITextFilterParams,
+            cellStyle: {color: '#3366CC',cursor:"pointer"},
             minWidth: 210,
             wrapText:true,
         },
         { 
             field: 'lead_status',
             headerName: "Status", 
-            filter: 'agTextColumnFilter',
-            filterParams: {
-                buttons: ['clear', 'apply'],
-                closeOnApply: true,
-            } as ITextFilterParams,
+            filter: true,
             minWidth: 210,
             wrapText:true,
         },
@@ -98,6 +95,7 @@ export class LeadManagementComponent {
                 closeOnApply: true,
             } as ITextFilterParams,
             minWidth: 210,
+            cellStyle: {color: '#3366CC',cursor:"pointer"},
             wrapText:true,
         },
         { 
@@ -143,9 +141,10 @@ export class LeadManagementComponent {
     }
 
     onNodeClicked(clickData: any) {
-        console.log(clickData)
         if (clickData.headerName == 'Name') {
             this.router.navigate(['leads', clickData.rowData.lead_id, 'summary'])
+        } else if(clickData.headerName == 'Website') {
+            window.open(clickData.rowData.website, '_blank')
         }
     }
 }

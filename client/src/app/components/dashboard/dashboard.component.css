@@ -1,18 +1,8 @@
-:host {
-    width: 100%;
-}
-
-.drawer-container {
-    width: auto;
-    height: 95vh;
-    background: white;
-}
-
-.drawer-menu-section {
-    width:15%;
-    background: var(--side-bar-color)
-}
-
-.drawer-content-section {
-    height: 85vh;
+.mat-mdc-tab-link {
+    &.active {
+        border-bottom: 2px solid #3f51b5;
+        .mdc-tab__text-label {
+            color: #3f51b5 !important;
+        }
+    }
 }
