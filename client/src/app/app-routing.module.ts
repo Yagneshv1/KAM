@@ -6,6 +6,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { DashBoardComponent } from './components/dashboard/dashboard.component';
 import { LeadSummaryComponent } from './components/lead-management/lead-summary/lead-summary.component';
 import { LeadManagementComponent } from './components/lead-management/lead-management.component';
+import { InteractionsComponent } from './components/interactions/interactions.component';
+import { CallPlannerComponent } from './components/call-planner/call-planner.component';
+import { PerformanceComponent } from './components/performance-metrics/performance-metrics.component';
 
 const routes: Routes = [
   {
@@ -36,6 +39,21 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       }
     ]
+  },
+  {
+    path: 'interactions',
+    component: InteractionsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'call-planner',
+    component: CallPlannerComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'performance-metrics',
+    component: PerformanceComponent,
+    canActivate: [AuthGuard]
   }
 ]
 

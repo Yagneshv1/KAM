@@ -133,6 +133,101 @@ def get_lead_poc(id):
         db_instance.execute_ddl_and_dml_commands(query, pocData)
         return jsonify({"message": "POC is added successfully!", "status": "success"}), 200
 
+@app.route('/api/interactions', methods=['GET', 'POST'])
+@jwt_required()
+def get_interactions():
+    db_instance = PostgresqlDB()
+    if request.method == 'GET':
+        query = text('''WITH interaction_info as (
+                    SELECT p.lead_name, p.interaction_time, p.interaction_mode, p.interaction_details, p.poc_name, order_time, order_details
+                    FROM (select lead_name, interaction_time, interaction_mode, interaction_details, poc_name, lead_id, poc_id from 
+                    interactions natural join interacts natural join pocs natural join leads) as p 
+                    left join orders on p.lead_id = orders.lead_id and p.interaction_time = orders.interaction_time and p.poc_id = orders.poc_id)
+                    SELECT json_agg(interaction_info.*) from interaction_info''')
+        
+        interactions = db_instance.execute_dql_commands(query).fetchone()
+
+        interactions_data = []
+        if not interactions or not interactions[0]:
+            pass
+        else:
+            for row in interactions[0]:
+                interactions_data.append(dict(row.items()))
+        return jsonify({"data": interactions_data, "status": "success"}), 200
+    else:
+        interaction_data = request.get_json()
+
+        db_instance.execute_ddl_and_dml_commands(text('''INSERT into interactions(lead_id, interaction_time, interaction_mode, interaction_details)
+                                                 values(:lead_id, :interaction_time, :interaction_mode, :interaction_details)'''), interaction_data)
+
+        db_instance.execute_ddl_and_dml_commands(text('''INSERT into interacts(poc_id, interaction_time, lead_id)
+                                                 values(:poc_id, :interaction_time, :lead_id)'''), interaction_data)
+
+        for order in interaction_data['orders']:
+            db_instance.execute_ddl_and_dml_commands(text('''INSERT into orders(poc_id, interaction_time, lead_id, order_time, order_details, order_value)
+                                                 values(:poc_id, :interaction_time, :lead_id, :interaction_time, :order_details, :order_value)'''), 
+                                                 {**interaction_data, "order_details": order['order_details'], "order_value": order['order_value']})           
+        
+        db_instance.execute_ddl_and_dml_commands(text('''UPDATE leads SET last_call=GREATEST(last_call, :interaction_time) WHERE lead_id=:lead_id'''),
+                                                 interaction_data)
+        return jsonify({"message": "Interaction added successfully!", "status": "success"}), 200
+
+
+@app.route('/api/call-planner', methods=['GET'])
+@jwt_required()
+def get_call_planner():
+    db_instance = PostgresqlDB()
+    query = text('''WITH calls_info as
+                    (SELECT lead_name, email FROM leads
+                    WHERE 
+                    last_call is null OR
+                    (CASE
+                        WHEN call_frequency = 'Daily' THEN last_call + INTERVAL '1 day'
+                        WHEN call_frequency = 'Weekly' THEN last_call + INTERVAL '1 week'
+                        WHEN call_frequency = 'Bi-Weekly' THEN last_call + INTERVAL '2 weeks'
+                        WHEN call_frequency = 'Semi-Monthly' THEN 
+                            CASE
+                                WHEN EXTRACT(DAY FROM last_call) <= 15
+                                THEN last_call + INTERVAL '15 days'  -- Next 15th
+                                ELSE last_call + INTERVAL '1 month'  -- End of next month
+                            END
+                        WHEN call_frequency = 'Monthly' THEN last_call + INTERVAL '1 month'
+                        WHEN call_frequency = 'Quarterly' THEN last_call + INTERVAL '3 months'
+                        WHEN call_frequency = 'Yearly' THEN last_call + INTERVAL '1 year'
+                    END <= NOW()
+                    ))
+                    SELECT json_agg(calls_info.*) from calls_info''')
+
+    calls = db_instance.execute_dql_commands(query).fetchone()
+
+    calls_now = []
+    if not calls or not calls[0]:
+        pass
+    else:
+        for row in calls[0]:
+            calls_now.append(dict(row.items()))
+    return jsonify({"data": calls_now, "status": "success"}), 200
+   
+
+@app.route('/api/performance-metrics', methods=['GET'])
+@jwt_required()
+def get_performance_metrics():
+    db_instance = PostgresqlDB()
+    query = text('''WITH performance_info as
+                    (SELECT lead_name, avg_order_value, order_count, measured_time FROM leads
+                    natural join performance_metrics )
+                    SELECT json_agg(performance_info.*) from performance_info''')
+
+    performance = db_instance.execute_dql_commands(query).fetchone()
+
+    performance_data = []
+    if not performance or not performance[0]:
+        pass
+    else:
+        for row in performance[0]:
+            performance_data.append(dict(row.items()))
+    return jsonify({"data": performance_data, "status": "success"}), 200
+
 class PostgresqlDB:
     def __init__(self):
         self.username = 'postgres'
@@ -165,16 +260,16 @@ class PostgresqlDB:
         connection = self.engine.connect()
         trans = connection.begin()
 
-        try:
-            if values is not None:
-                connection.execute(statement, values)
-            else:
-                connection.execute(statement)
-            trans.commit()
-            connection.close()        
-        except Exception as e:
-            connection.rollback()
-            connection.close()
+        # try:
+        if values is not None:
+            connection.execute(statement, values)
+        else:
+            connection.execute(statement)
+        trans.commit()
+        connection.close()        
+        # except Exception as e:
+        #     connection.rollback()
+        #     connection.close()
 
 
 if __name__=='__main__':

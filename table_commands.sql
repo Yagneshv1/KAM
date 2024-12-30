@@ -47,21 +47,20 @@ CREATE TABLE INTERACTS(
 )
 CREATE TABLE ORDERS(
     order_id serial PRIMARY KEY,
-    lead_id int,
     poc_id int,
     interaction_time timestamptz,
-    interaction_lead_id int,
+    lead_id int,
     order_time timestamptz not null,
     order_details text not null,
     order_value bigint not null check(order_value >= 0),
     CONSTRAINT fk_poc FOREIGN KEY(poc_id) REFERENCES Pocs(poc_id),
-    CONSTRAINT fk_interaction FOREIGN KEY(interaction_time, interaction_lead_id) REFERENCES INTERACTIONS(interaction_time, lead_id) ,
-    CONSTRAINT fk_lead FOREIGN KEY(lead_id) REFERENCES leads(lead_id)
+    CONSTRAINT fk_interaction FOREIGN KEY(interaction_time, lead_id) REFERENCES INTERACTIONS(interaction_time, lead_id)
 )
 CREATE TABLE PERFORMANCE_METRICS(
     lead_id int,
     measured_time timestamptz not null,
     avg_order_value BIGINT not null check(avg_order_value >= 0),
+    order_count int not null check(order_count > 0),
     CONSTRAINT fk_lead FOREIGN KEY(lead_id) REFERENCES leads(lead_id),
     CONSTRAINT performance_pk PRIMARY KEY(lead_id, measured_time)
 )
@@ -83,3 +82,50 @@ CREATE TABLE Manages(
     CONSTRAINT fk_lead FOREIGN KEY(lead_id) REFERENCES leads(lead_id),
     CONSTRAINT fk_kam FOREIGN KEY(kam_id) REFERENCES USERS(kam_id)
 )
+
+CREATE OR REPLACE PROCEDURE upsert_performance_metrics(
+    new_lead_id INT,
+    new_order_value DECIMAL,
+    new_measured_time TIMESTAMPTZ
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE performance_metrics
+    SET
+        avg_order_value = (avg_order_value * order_count + new_order_value) / (order_count + 1),
+        order_count = order_count + 1
+    WHERE lead_id = new_lead_id
+      AND DATE_TRUNC('month', new_measured_time) = DATE_TRUNC('month', measured_time);
+
+    IF NOT FOUND THEN
+        INSERT INTO performance_metrics (lead_id, measured_time, avg_order_value, order_count)
+        VALUES (
+            new_lead_id,
+            new_measured_time,
+            new_order_value,
+            1
+        );
+    END IF;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION trigger_upsert_performance_metrics() 
+RETURNS TRIGGER AS $$
+BEGIN
+    CALL upsert_performance_metrics(
+        NEW.lead_id,
+        NEW.order_value,
+        NEW.order_time
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER after_order_insert_or_update
+AFTER INSERT OR UPDATE ON orders
+FOR EACH ROW
+EXECUTE FUNCTION trigger_upsert_performance_metrics();
+
+
+

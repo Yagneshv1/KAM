@@ -1,0 +1,41 @@
+<div class="dialog-size-alignment-styling" mat-dialog-content [formGroup]="form">
+    <p>Add new interaction details:</p>
+    <mat-form-field>
+      <mat-label>Lead ID</mat-label>
+      <input matInput formControlName="lead_id">
+  </mat-form-field>
+  <mat-form-field>
+      <mat-label>Time</mat-label>
+      <input matInput formControlName="time" type="datetime-local">
+  </mat-form-field>
+  <mat-form-field>
+      <mat-label>Mode</mat-label>
+      <input matInput formControlName="mode" >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Details</mat-label>
+    <input matInput formControlName="details" >
+</mat-form-field>
+<mat-form-field>
+    <mat-label>POC</mat-label>
+    <input matInput formControlName="poc" >
+</mat-form-field>
+<div formArrayName="orders">
+    <div *ngFor="let order of orders.controls; let i = index" [formGroupName]="i">
+        <mat-form-field>
+            <mat-label>Details</mat-label>
+            <input matInput formControlName="order_details" >
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Order Value</mat-label>
+            <input matInput formControlName="order_value" >
+        </mat-form-field>
+        <button mat-raised-button (click)="removeOrder(i)">Remove Order</button>
+    </div>
+    <button mat-raised-button (click)="addOrder()">Add Order</button>
+  </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="onSubmit()" [disabled]="this.form.invalid">Add</button>
+</div>

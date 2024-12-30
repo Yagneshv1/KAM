@@ -27,6 +27,10 @@ import { AddLeadDialogComponent } from './components/dialog/add-lead/add-lead-di
 import { LeadSummaryComponent } from './components/lead-management/lead-summary/lead-summary.component';
 import { LeadPocComponent } from './components/lead-management/lead-poc/lead-poc.component';
 import { AddLeadPocDialogComponent } from './components/dialog/add-lead-poc/add-lead-poc.component';
+import { InteractionsComponent } from './components/interactions/interactions.component';
+import { AddInteractionDialogComponent } from './components/dialog/add-interaction/add-interaction-dialog.component';
+import { CallPlannerComponent } from './components/call-planner/call-planner.component';
+import { PerformanceComponent } from './components/performance-metrics/performance-metrics.component';
 
 registerAllModules();
 
@@ -41,7 +45,11 @@ registerAllModules();
     AddLeadDialogComponent,
     LeadSummaryComponent,
     LeadPocComponent,
-    AddLeadPocDialogComponent
+    AddLeadPocDialogComponent,
+    InteractionsComponent,
+    AddInteractionDialogComponent,
+    CallPlannerComponent,
+    PerformanceComponent
   ],
   imports: [
     BrowserAnimationsModule,
