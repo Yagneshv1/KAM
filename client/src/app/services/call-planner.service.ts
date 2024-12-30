@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -12,9 +12,6 @@ export class callPlannerService {
     ) {}
 
     getCallPlanner() {
-        const token = localStorage.getItem('auth_token');
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-        return this.httpClient.get(`${this.apiUrl}/call-planner`, {headers})
+        return this.httpClient.get(`${this.apiUrl}/call-planner`)
     }
 }

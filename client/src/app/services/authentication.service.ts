@@ -33,10 +33,4 @@ export class AuthenticationService {
     getToken(): string | null {
         return localStorage.getItem('auth_token');
     }
-
-    // Get authorization headers
-    getAuthHeaders(): HttpHeaders {
-        const token = this.getToken();
-        return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    }
 }

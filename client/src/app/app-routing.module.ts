@@ -25,20 +25,13 @@ const routes: Routes = [
   },
   {
     path: 'leads',
-    component: DashBoardComponent,
+    component: LeadManagementComponent,
     canActivate: [AuthGuard],
-    children: [
-      {
-        path: '',
-        component: LeadManagementComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: ':id/summary',
-        component: LeadSummaryComponent,
-        canActivate: [AuthGuard]
-      }
-    ]
+  },
+  {
+    path: 'leads/:id/summary',
+    component: LeadSummaryComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'interactions',

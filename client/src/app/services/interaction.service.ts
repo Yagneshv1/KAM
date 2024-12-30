@@ -12,16 +12,10 @@ export class InteractionService {
     ) {}
 
     getInteractionsData() {
-        const token = localStorage.getItem('auth_token');
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-        return this.httpClient.get(`${this.apiUrl}/interactions`, {headers})
+        return this.httpClient.get(`${this.apiUrl}/interactions`)
     }
 
     addNewInteraction(interactionData: any) {
-        const token = localStorage.getItem('auth_token');
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-        return this.httpClient.post(`${this.apiUrl}/interactions`, interactionData, {headers})
+        return this.httpClient.post(`${this.apiUrl}/interactions`, interactionData)
     }
 }

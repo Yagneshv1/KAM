@@ -1,4 +1,4 @@
-import sqlalchemy
+import sqlalchemy, json
 from flask import Flask, request, jsonify
 from sqlalchemy.sql import text
 from sqlalchemy.engine import create_engine
@@ -156,20 +156,23 @@ def get_interactions():
         return jsonify({"data": interactions_data, "status": "success"}), 200
     else:
         interaction_data = request.get_json()
+        interaction_data["orders"] = json.dumps(interaction_data["orders"])
+        interaction_data["lead_id"] = int(interaction_data["lead_id"])
+        interaction_data["poc_id"] = int(interaction_data["poc_id"])
 
-        db_instance.execute_ddl_and_dml_commands(text('''INSERT into interactions(lead_id, interaction_time, interaction_mode, interaction_details)
-                                                 values(:lead_id, :interaction_time, :interaction_mode, :interaction_details)'''), interaction_data)
-
-        db_instance.execute_ddl_and_dml_commands(text('''INSERT into interacts(poc_id, interaction_time, lead_id)
-                                                 values(:poc_id, :interaction_time, :lead_id)'''), interaction_data)
-
-        for order in interaction_data['orders']:
-            db_instance.execute_ddl_and_dml_commands(text('''INSERT into orders(poc_id, interaction_time, lead_id, order_time, order_details, order_value)
-                                                 values(:poc_id, :interaction_time, :lead_id, :interaction_time, :order_details, :order_value)'''), 
-                                                 {**interaction_data, "order_details": order['order_details'], "order_value": order['order_value']})           
-        
-        db_instance.execute_ddl_and_dml_commands(text('''UPDATE leads SET last_call=GREATEST(last_call, :interaction_time) WHERE lead_id=:lead_id'''),
-                                                 interaction_data)
+        db_instance.execute_ddl_and_dml_commands(
+            text('''
+                CALL add_interaction(
+                    :lead_id,
+                    :interaction_time,
+                    :interaction_mode,
+                    :interaction_details,
+                    :poc_id,
+                    :orders
+                )
+            '''),
+            interaction_data
+        )
         return jsonify({"message": "Interaction added successfully!", "status": "success"}), 200
 
 

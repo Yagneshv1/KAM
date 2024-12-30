@@ -12,4 +12,11 @@ interface MenuNode {
   })
 export class DashBoardComponent {
  
+  public tabs = [
+    { label: 'Lead Manager', routerLink: '/leads' },
+    { label: 'Interaction Manager', routerLink: '/interactions' },
+    { label: 'Call Planner', routerLink: '/call-planner' },
+    { label: 'Performance Manager', routerLink: '/performance-metrics' }
+  ];
+
 }

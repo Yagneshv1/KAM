@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login-page/login-page.component';
@@ -31,6 +31,8 @@ import { InteractionsComponent } from './components/interactions/interactions.co
 import { AddInteractionDialogComponent } from './components/dialog/add-interaction/add-interaction-dialog.component';
 import { CallPlannerComponent } from './components/call-planner/call-planner.component';
 import { PerformanceComponent } from './components/performance-metrics/performance-metrics.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { AuthInterceptor } from './authInterceptor';
 
 registerAllModules();
 
@@ -57,6 +59,7 @@ registerAllModules();
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    MatToolbarModule,
     ReactiveFormsModule,
     MatInputModule,
     MatIconModule,
@@ -71,7 +74,9 @@ registerAllModules();
     AgGridModule,
     MatDialogModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

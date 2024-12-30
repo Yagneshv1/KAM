@@ -12,10 +12,7 @@ export class performanceService {
     ) {}
 
     getPerformanceData() {
-        const token = localStorage.getItem('auth_token');
-        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-        return this.httpClient.get(`${this.apiUrl}/performance-metrics`, {headers})
+        return this.httpClient.get(`${this.apiUrl}/performance-metrics`)
     }
 
 }

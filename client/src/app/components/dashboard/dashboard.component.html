@@ -1,8 +1,25 @@
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+<!-- <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
     <mat-tab label="Lead Manager">
     </mat-tab>
     <mat-tab label="Interaction Manager"></mat-tab>
     <mat-tab label="Call Planner"></mat-tab>
-    <mat-tab label="Performance Manager">Content 5</mat-tab>
+    <mat-tab label="Performance Manager"></mat-tab>
 </mat-tab-group>
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->
+
+<mat-toolbar>
+    <span class="spacer-style"></span>
+  
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a
+        mat-tab-link
+        *ngFor="let tab of tabs"
+        [routerLink]="tab.routerLink"
+        routerLinkActive="active"
+        >{{ tab.label }}</a
+      >
+    </nav>
+
+  </mat-toolbar>
+  
+  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

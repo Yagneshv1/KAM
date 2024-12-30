@@ -1,4 +1,4 @@
-CREATE TYPE lead_Status AS ENUM ('New', 'Contacted', 'Converted', 'Lost', 'Inactive');
+CREATE TYPE leadStatus AS ENUM ('New', 'Contacted', 'Converted', 'Lost', 'Inactive');
 CREATE TYPE callFrequency AS ENUM('Daily', 'Weekly', 'Bi-Weekly', 'Semi-Monthly', 'Monthly', 'Quarterly', 'Yearly')
 CREATE TYPE gender as ENUM('Male', 'Female', 'Other')
 
@@ -191,3 +191,67 @@ BEGIN
         END <= NOW());
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE PROCEDURE add_interaction(
+    p_lead_id INT,
+    p_interaction_time TIMESTAMP,
+    p_interaction_mode varchar(50),
+    p_interaction_details text,
+    p_poc_id int,
+    p_orders JSONB
+)
+LANGUAGE plpgsql AS
+$$
+DECLARE
+    order_record JSONB;
+    lead_current_status leadStatus;
+BEGIN
+    -- Insert interaction into the interactions table
+    INSERT INTO interactions(lead_id, interaction_time, interaction_mode, interaction_details)
+    VALUES (p_lead_id, p_interaction_time, p_interaction_mode, p_interaction_details);
+
+    -- Insert interaction into the interacts table
+    INSERT INTO interacts(poc_id, interaction_time, lead_id)
+    VALUES (p_poc_id, p_interaction_time, p_lead_id);
+
+    -- Iterate over the orders JSON array and insert each order
+    FOR order_record IN 
+        SELECT * FROM jsonb_array_elements(p_orders)
+    LOOP
+        INSERT INTO orders(poc_id, interaction_time, lead_id, order_time, order_details, order_value)
+        VALUES (
+            p_poc_id, 
+            p_interaction_time, 
+            p_lead_id, 
+            p_interaction_time, 
+            order_record->>'order_details',  -- Accessing order_details
+            (order_record->>'order_value')
+        );
+    END LOOP;
+
+    -- Update lead status: if New, change to Contacted
+    UPDATE leads
+    SET last_call = GREATEST(last_call, p_interaction_time)
+    WHERE lead_id = p_lead_id;
+
+    -- Get the current status of the lead
+    SELECT lead_status INTO lead_current_status FROM leads WHERE lead_id = p_lead_id;
+
+    -- Change status to Contacted if it's New
+    IF lead_current_status = 'New' THEN
+        UPDATE leads
+        SET lead_status = 'Contacted'
+        WHERE lead_id = p_lead_id;
+    END IF;
+
+    -- Change status to Converted if there are orders and status is not already Converted
+    IF EXISTS (SELECT 1 FROM orders WHERE lead_id = p_lead_id) AND lead_current_status != 'Converted' THEN
+        UPDATE leads
+        SET lead_status = 'Converted'
+        WHERE lead_id = p_lead_id;
+    END IF;
+END;
+$$;
