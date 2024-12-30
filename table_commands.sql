@@ -1,4 +1,4 @@
-CREATE TYPE leadStatus AS ENUM ('New', 'Contacted', 'Qualified', 'Proposal Sent', 'Negotiation', 'Converted', 'Lost', 'Inactive');
+CREATE TYPE lead_Status AS ENUM ('New', 'Contacted', 'Converted', 'Lost', 'Inactive');
 CREATE TYPE callFrequency AS ENUM('Daily', 'Weekly', 'Bi-Weekly', 'Semi-Monthly', 'Monthly', 'Quarterly', 'Yearly')
 CREATE TYPE gender as ENUM('Male', 'Female', 'Other')
 
@@ -59,7 +59,7 @@ CREATE TABLE ORDERS(
 CREATE TABLE PERFORMANCE_METRICS(
     lead_id int,
     measured_time timestamptz not null,
-    avg_order_value BIGINT not null check(avg_order_value >= 0),
+    avg_order_value numeric not null check(avg_order_value >= 0),
     order_count int not null check(order_count > 0),
     CONSTRAINT fk_lead FOREIGN KEY(lead_id) REFERENCES leads(lead_id),
     CONSTRAINT performance_pk PRIMARY KEY(lead_id, measured_time)
@@ -128,4 +128,66 @@ FOR EACH ROW
 EXECUTE FUNCTION trigger_upsert_performance_metrics();
 
 
+CREATE OR REPLACE FUNCTION get_accounts_performance()
+RETURNS TABLE (
+    lead varchar(100),
+    order_value NUMERIC,
+    count INT,
+    performance BOOLEAN
+) AS
+$$
+BEGIN
+RETURN QUERY
+WITH month_comparison AS (
+    SELECT
+        lead_id,
+        lead_name,
+        avg_order_value,
+        order_count,
+        DATE_TRUNC('month', measured_time) AS current_month,
+        LAG(avg_order_value) OVER (PARTITION BY lead_id ORDER BY DATE_TRUNC('month', measured_time)) AS prev_avg_order_value
+    FROM performance_metrics natural join leads
+)
+SELECT
+    lead_name,
+    avg_order_value,
+    order_count,
+    CASE 
+        WHEN prev_avg_order_value IS NULL THEN TRUE
+        WHEN avg_order_value < prev_avg_order_value * 0.8 THEN FALSE
+        ELSE TRUE
+    END AS performance
+FROM month_comparison
+ORDER BY lead_id, current_month;
+END;
+$$ LANGUAGE plpgsql;
 
+
+
+CREATE OR REPLACE FUNCTION get_todays_calls()
+RETURNS TABLE (
+    leadName varchar(100),
+    leadEmail varchar(75)
+) AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT lead_name, email FROM leads
+        WHERE 
+        last_call is null OR
+        (CASE
+            WHEN call_frequency = 'Daily' THEN last_call + INTERVAL '1 day'
+            WHEN call_frequency = 'Weekly' THEN last_call + INTERVAL '1 week'
+            WHEN call_frequency = 'Bi-Weekly' THEN last_call + INTERVAL '2 weeks'
+            WHEN call_frequency = 'Semi-Monthly' THEN 
+                CASE
+                    WHEN EXTRACT(DAY FROM last_call) <= 15
+                    THEN last_call + INTERVAL '15 days'  -- Next 15th
+                    ELSE last_call + INTERVAL '1 month'  -- End of next month
+                END
+            WHEN call_frequency = 'Monthly' THEN last_call + INTERVAL '1 month'
+            WHEN call_frequency = 'Quarterly' THEN last_call + INTERVAL '3 months'
+            WHEN call_frequency = 'Yearly' THEN last_call + INTERVAL '1 year'
+        END <= NOW());
+END;
+$$ LANGUAGE plpgsql;

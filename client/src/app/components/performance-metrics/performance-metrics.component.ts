@@ -10,18 +10,24 @@ import { performanceService } from 'src/app/services/performance.service';
 export class PerformanceComponent {
    columnDefs = [
         { 
-            field: 'lead_name',
+            field: 'lead',
             headerName: "Lead Name", 
             filter: 'agTextColumnFilter',
             filterParams: {
                 buttons: ['clear', 'apply'],
                 closeOnApply: true,
             } as ITextFilterParams,
+            cellStyle: (params: any) => {
+                if (params.data.performance) {
+                    return {backgroundColor: 'lightgreen'};
+                } else
+                    return {backgroundColor: 'pink'};;
+            },
             minWidth: 210,
             wrapText:true,
         },
         { 
-            field: 'avg_order_value',
+            field: 'order_value',
             headerName: "Average Order Value", 
             filter: 'agNumberColumnFilter',
             filterParams: {
@@ -32,24 +38,13 @@ export class PerformanceComponent {
             wrapText:true,
         },
         { 
-            field: 'order_count',
+            field: 'count',
             headerName: "Order Count", 
             filter: 'agNumberColumnFilter',
             filterParams: {
                 buttons: ['clear', 'apply'],
                 closeOnApply: true,
             } as INumberFilterParams,
-            minWidth: 210,
-            wrapText:true,
-        },
-        { 
-            field: 'measured_time',
-            headerName: "Time", 
-            filter: 'agTextColumnFilter',
-            filterParams: {
-                buttons: ['clear', 'apply'],
-                closeOnApply: true,
-            } as ITextFilterParams,
             minWidth: 210,
             wrapText:true,
         }

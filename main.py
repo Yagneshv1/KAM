@@ -178,24 +178,7 @@ def get_interactions():
 def get_call_planner():
     db_instance = PostgresqlDB()
     query = text('''WITH calls_info as
-                    (SELECT lead_name, email FROM leads
-                    WHERE 
-                    last_call is null OR
-                    (CASE
-                        WHEN call_frequency = 'Daily' THEN last_call + INTERVAL '1 day'
-                        WHEN call_frequency = 'Weekly' THEN last_call + INTERVAL '1 week'
-                        WHEN call_frequency = 'Bi-Weekly' THEN last_call + INTERVAL '2 weeks'
-                        WHEN call_frequency = 'Semi-Monthly' THEN 
-                            CASE
-                                WHEN EXTRACT(DAY FROM last_call) <= 15
-                                THEN last_call + INTERVAL '15 days'  -- Next 15th
-                                ELSE last_call + INTERVAL '1 month'  -- End of next month
-                            END
-                        WHEN call_frequency = 'Monthly' THEN last_call + INTERVAL '1 month'
-                        WHEN call_frequency = 'Quarterly' THEN last_call + INTERVAL '3 months'
-                        WHEN call_frequency = 'Yearly' THEN last_call + INTERVAL '1 year'
-                    END <= NOW()
-                    ))
+                    (SELECT * from get_todays_calls())
                     SELECT json_agg(calls_info.*) from calls_info''')
 
     calls = db_instance.execute_dql_commands(query).fetchone()
@@ -214,8 +197,7 @@ def get_call_planner():
 def get_performance_metrics():
     db_instance = PostgresqlDB()
     query = text('''WITH performance_info as
-                    (SELECT lead_name, avg_order_value, order_count, measured_time FROM leads
-                    natural join performance_metrics )
+                    (SELECT * from get_accounts_performance())
                     SELECT json_agg(performance_info.*) from performance_info''')
 
     performance = db_instance.execute_dql_commands(query).fetchone()

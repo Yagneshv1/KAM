@@ -10,7 +10,7 @@ import { callPlannerService } from 'src/app/services/call-planner.service';
 export class CallPlannerComponent {
    columnDefs = [
         { 
-            field: 'lead_name',
+            field: 'leadname',
             headerName: "Lead Name", 
             filter: 'agTextColumnFilter',
             filterParams: {
@@ -21,7 +21,7 @@ export class CallPlannerComponent {
             wrapText:true,
         },
         { 
-            field: 'email',
+            field: 'leademail',
             headerName: "Email", 
             filter: 'agTextColumnFilter',
             filterParams: {
