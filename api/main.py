@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 from sqlalchemy.sql import text
 from sqlalchemy.engine import create_engine
 sqlalchemy.__version__
+import datetime
 from flask_cors import CORS
 from datetime import date
 from flask_bcrypt import Bcrypt
@@ -35,7 +36,7 @@ def login():
     user = result.fetchone()
     if user:
         if bcrypt.check_password_hash(user[2], login_credentials.get('password')):
-            access_token = create_access_token(identity=login_credentials.get('username'))
+            access_token = create_access_token(identity=login_credentials.get('username'), expires_delta=datetime.timedelta(minutes=30))
             return jsonify({"message": "Logged in successfully!", "status": "success", "access_token": access_token}), 200
         else:
             return jsonify({"message": "Incorrect password", "status": "error"}), 401

@@ -37,6 +37,7 @@ import { AuthInterceptor } from './authInterceptor';
 import { ModuleRegistry } from 'ag-grid-community';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { SessionEndedDialogComponent } from './components/dialog/session-ended-dialog/sessionEndedDialog.component';
 
 ModuleRegistry.registerModules([SetFilterModule]);
 registerAllModules();
@@ -56,7 +57,8 @@ registerAllModules();
     InteractionsComponent,
     AddInteractionDialogComponent,
     CallPlannerComponent,
-    PerformanceComponent
+    PerformanceComponent,
+    SessionEndedDialogComponent
   ],
   imports: [
     BrowserAnimationsModule,
