@@ -16,8 +16,7 @@ export class SignUpComponent {
     email: new FormControl('', [Validators.required]),
     dob: new FormControl('', [Validators.required]),
     mobile: new FormControl('', [Validators.required]),
-    role: new FormControl('', [Validators.required]),
-    doj: new FormControl('', [Validators.required])
+    role: new FormControl('', [Validators.required])
   });
 
   loginMessage: string = '';
@@ -36,8 +35,7 @@ export class SignUpComponent {
       'role': this.form.get('role')?.value,
       'dob': this.form.get('dob')?.value,
       'mobile': this.form.get('mobile')?.value,
-      'email': this.form.get('email')?.value,
-      'joining_date': this.form.get('doj')?.value
+      'email': this.form.get('email')?.value
     }
 
     this.authService.signUpUser(userDetails).subscribe(res => {

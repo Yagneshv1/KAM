@@ -1,35 +1,44 @@
-<div class="dialog-size-alignment-styling" mat-dialog-content [formGroup]="form">
-    <p>Add New Poc Details:</p>
+<div class="dialog-size-alignment" mat-dialog-content [formGroup]="form">
+    <h2 style="display: flex; justify-content: center;">Add New POC Details</h2>
     <mat-form-field>
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" placeholder="Name">
-  </mat-form-field>
-  <mat-form-field>
-      <mat-label>Age</mat-label>
-      <input matInput formControlName="age" placeholder="Status">
-  </mat-form-field>
-  <mat-form-field>
-      <mat-label>Gender</mat-label>
-      <input matInput formControlName="gender" >
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Mobile</mat-label>
-    <input matInput formControlName="mobile" >
-</mat-form-field>
-<mat-form-field>
-    <mat-label>Email</mat-label>
-    <input matInput formControlName="email" >
-</mat-form-field>
-<mat-form-field>
-    <mat-label>From</mat-label>
-    <input matInput formControlName="from_date" type="date">
-</mat-form-field>
-<mat-form-field>
-    <mat-label>To</mat-label>
-    <input matInput formControlName="to_date" type="date">
-</mat-form-field>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Age</mat-label>
+        <input matInput formControlName="age">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Role</mat-label>
+        <input matInput formControlName="role">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender">
+            <mat-option [value]="'Male'">Male</mat-option>
+            <mat-option [value]="'Female'">Female</mat-option>
+            <mat-option [value]="'Others'">Others</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Mobile</mat-label>
+        <input matInput formControlName="mobile" >
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>From</mat-label>
+        <input matInput formControlName="from_date" type="date">
+    </mat-form-field>
+    <mat-checkbox formControlName="isPresent" color="primary">Current POC?</mat-checkbox>
+    <mat-form-field>
+        <mat-label>To</mat-label>
+        <input matInput formControlName="to_date" type="date">
+    </mat-form-field>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button (click)="onSubmit()" [disabled]="this.form.invalid">Add</button>
+    <button mat-raised-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button (click)="onSubmit()" [disabled]="this.form.invalid" color="primary">Add</button>
 </div>

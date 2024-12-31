@@ -1,43 +1,41 @@
-<div style="display: flex; flex-direction: column;" [formGroup]="form">
-    <mat-form-field class="example-full-width">
-      <mat-label>Username</mat-label>
-      <input formControlName="username" matInput type="text" required >
-    </mat-form-field>
+<div style="margin: 20px">
+  <div style="display: flex; flex-direction: column;" [formGroup]="form">
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input formControlName="username" matInput type="text" >
+      </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-        <mat-label>Password</mat-label>
-        <input formControlName="password" matInput type="password" required>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-        <mat-label>Name</mat-label>
-        <input formControlName="name"  matInput type="text"required>
-    </mat-form-field>
+      <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input formControlName="password" matInput type="password">
+      </mat-form-field>
+      <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input formControlName="name"  matInput type="text">
+      </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Role</mat-label>
-      <input formControlName="role" matInput type="text" required>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <mat-label>Date of Birth</mat-label>
-      <input formControlName="dob" matInput type="date" required>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <mat-label>Mobile Number</mat-label>
-      <input formControlName="mobile"  matInput type="tel" required>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <mat-label>Email</mat-label>
-      <input formControlName="email" matInput type="email" required>
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <mat-label>Joining Date</mat-label>
-      <input formControlName="doj" matInput type="date" required>
-    </mat-form-field>
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <input formControlName="role" matInput type="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Date of Birth</mat-label>
+        <input formControlName="dob" matInput type="date">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mobile Number</mat-label>
+        <input formControlName="mobile"  matInput type="tel">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput type="email">
+      </mat-form-field>
+  </div>
+
+  <button mat-raised-button [disabled]="form.invalid" (click)="onSignUp()" color="primary" style="margin: 10px;">SignUp</button>
+
+  <button mat-raised-button (click)="onLoginUser()">Login</button>
+
+  <span style="margin: 20px;"><b>{{loginMessage}}</b></span>
 </div>
-
-<button mat-raised-button [disabled]="form.invalid" (click)="onSignUp()">SignUp</button>
-
-<button mat-raised-button (click)="onLoginUser()">Login</button>
-
-<div>{{loginMessage}}</div>
   

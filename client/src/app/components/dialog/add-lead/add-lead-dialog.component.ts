@@ -22,10 +22,11 @@ export class AddLeadDialogComponent implements OnInit {
         this.form = this.fb.group({
             name: ['', Validators.required],
             address: ['', Validators.required],
-            city: [''],
-            state: [''],
-            pincode: ['', Validators.min(0)],
-            email: ['', Validators.email],
+            city: ['', Validators.required],
+            state: ['', Validators.required],
+            pincode: ['', [Validators.required, Validators.min(0)]],
+            email: ['', [Validators.required, Validators.email]],
+            mobile: ['', Validators.required],
             website: ['', Validators.pattern(/^https?:\/\/[^\s$.?#].[^\s]*$/i)],
             domain: [''],
             call_frequency: ['', Validators.required]

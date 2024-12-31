@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LeadService } from 'src/app/services/lead.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { AddLeadPocDialogComponent } from '../../dialog/add-lead-poc/add-lead-poc.component';
+import { IDateFilterParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'app-lead-poc',
@@ -15,6 +16,17 @@ export class LeadPocComponent {
         { 
             field: 'poc_name',
             headerName: "Name", 
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['clear', 'apply'],
+                closeOnApply: true,
+            } as ITextFilterParams,
+            minWidth: 210,
+            wrapText:true,
+        },
+        { 
+            field: 'poc_role',
+            headerName: "Role", 
             filter: 'agTextColumnFilter',
             filterParams: {
                 buttons: ['clear', 'apply'],
@@ -48,17 +60,6 @@ export class LeadPocComponent {
         { 
             field: 'poc_mobile',
             headerName: "Mobile", 
-            filter: 'agNumberColumnFilter',
-            filterParams: {
-                buttons: ['clear', 'apply'],
-                closeOnApply: true,
-            } as INumberFilterParams,
-            minWidth: 210,
-            wrapText:true,
-        },
-        { 
-            field: 'poc_from',
-            headerName: "From", 
             filter: 'agTextColumnFilter',
             filterParams: {
                 buttons: ['clear', 'apply'],
@@ -68,15 +69,52 @@ export class LeadPocComponent {
             wrapText:true,
         },
         { 
-            field: 'poc_to',
-            headerName: "To", 
-            filter: 'agNumberColumnFilter',
+            field: 'poc_email',
+            headerName: "Email", 
+            filter: 'agTextColumnFilter',
             filterParams: {
                 buttons: ['clear', 'apply'],
                 closeOnApply: true,
-            } as INumberFilterParams,
+            } as ITextFilterParams,
             minWidth: 210,
             wrapText:true,
+        },
+        { 
+            field: 'poc_from',
+            headerName: "From", 
+            filter: 'agDateColumnFilter',
+            minWidth: 210,
+            wrapText:true,
+            filterParams: {
+                filterOptions: ['lessThan', 'greaterThan', 'inRange' ],
+                closeOnApply: true,
+            } as IDateFilterParams,
+            valueGetter: (params: any) => {
+                const utcDateString = params.data.poc_from;
+                const localDate = new Date(utcDateString)
+                return localDate;
+            },
+            valueFormatter: (params: any) => {
+                return params.value ? params.value.toLocaleDateString() : '';
+            }
+        },
+        { 
+            field: 'poc_to',
+            headerName: "To", 
+            filter: 'agDateColumnFilter',
+            minWidth: 210,
+            wrapText:true,
+            filterParams: {
+                filterOptions: ['lessThan', 'greaterThan', 'inRange' ],
+                closeOnApply: true,
+            } as IDateFilterParams,
+            valueGetter: (params: any) => {
+                const utcDateString = params.data.poc_to;
+                return utcDateString ? new Date(utcDateString) : new Date()
+            },
+            valueFormatter: (params: any) => {
+                return params.value ? (params.value.getTime() == new Date().getTime() ? 'Present' : params.value.toLocaleDateString()) : '';
+            }
         }
     ]
 
@@ -85,8 +123,7 @@ export class LeadPocComponent {
 
     constructor(private leadService: LeadService,
         private activatedRoute: ActivatedRoute,
-        private dialog: MatDialog,
-        private router: Router
+        private dialog: MatDialog
     ) {
 
     }

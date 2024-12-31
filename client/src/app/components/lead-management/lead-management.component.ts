@@ -87,6 +87,17 @@ export class LeadManagementComponent {
             wrapText:true,
         },
         { 
+            field: 'mobile',
+            headerName: "Mobile", 
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['clear', 'apply'],
+                closeOnApply: true,
+            } as ITextFilterParams,
+            minWidth: 210,
+            wrapText:true,
+        },
+        { 
             field: 'website',
             headerName: "Website", 
             filter: 'agTextColumnFilter',

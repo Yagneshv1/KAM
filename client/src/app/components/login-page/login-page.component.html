@@ -1,18 +1,20 @@
-<div style="display: flex; flex-direction: column;">
-    <mat-form-field class="example-full-width">
-      <mat-label>Username</mat-label>
-      <input matInput type="text" [(ngModel)]="username" required>
-    </mat-form-field>
-
-    <mat-form-field class="example-full-width">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" [(ngModel)]="password" required>
+<div style="margin: 20px">
+  <div style="display: flex; flex-direction: column;">
+      <mat-form-field class="example-full-width">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" [(ngModel)]="username" required>
       </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" [(ngModel)]="password" required>
+        </mat-form-field>
+  </div>
+
+  <button mat-raised-button [disabled]="!username || !password" (click)="onLoginUser()" color="primary" style="margin:10px">Login</button>
+
+  <button mat-raised-button (click)="onSignUp()">Sign Up</button>
+
+  <span style="margin: 20px;"><b>{{loginMessage}}</b></span>
 </div>
-
-<button mat-raised-button [disabled]="!username || !password" (click)="onLoginUser()">Login</button>
-
-<button mat-raised-button (click)="onSignUp()">Sign Up</button>
-
-<div>{{loginMessage}}</div>
   

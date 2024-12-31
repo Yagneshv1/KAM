@@ -7,10 +7,11 @@ CREATE TABLE leads(
     lead_name varchar(100) not null,
     lead_status leadStatus not null,
     lead_address text not null,
-    lead_city varchar(50),
-    lead_state varchar(50),
-    lead_pincode int,
-    email varchar(75),
+    lead_city varchar(50) not null,
+    lead_state varchar(50) not null,
+    lead_pincode int not null,
+    email varchar(75) not null,
+    mobile bigint not null,
     website text,
     lead_domain varchar,
     call_frequency callFrequency not null,
@@ -19,14 +20,15 @@ CREATE TABLE leads(
 
 CREATE TABLE Pocs(
     poc_id serial PRIMARY KEY,
-    lead_id int,
+    lead_id int not null,
     poc_name varchar(100) not null,
-    poc_age int check (poc_age >= 0 and poc_age <= 100),
+    poc_age int check (poc_age >= 0 and poc_age <= 100) not null,
     poc_gender gender not null,
     poc_mobile BIGINT,
     poc_email text,
     poc_from date not null,
     poc_to date,
+    poc_role varchar(50) not null,
     CONSTRAINT fk_lead FOREIGN KEY(lead_id) REFERENCES leads(lead_id) 
 )
 CREATE TABLE INTERACTIONS(
@@ -72,8 +74,7 @@ CREATE TABLE USERS(
     kam_role text not null,
     date_of_birth date not null,
     mobile_no bigint not null,
-    email varchar(75) not null,
-    joining_date date not null
+    email varchar(75) not null
 )
 CREATE TABLE Manages(
     kam_id int,

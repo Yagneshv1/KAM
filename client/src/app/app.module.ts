@@ -36,6 +36,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './authInterceptor';
 import { ModuleRegistry } from 'ag-grid-community';
 import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 ModuleRegistry.registerModules([SetFilterModule]);
 registerAllModules();
@@ -77,6 +78,7 @@ registerAllModules();
     MatTreeModule,
     AgGridModule,
     MatDialogModule,
+    MatCheckboxModule,
     MatSelectModule
   ],
   providers: [

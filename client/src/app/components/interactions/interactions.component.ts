@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { AddInteractionDialogComponent } from '../dialog/add-interaction/add-interaction-dialog.component';
+import { IDateFilterParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'app-interactions',
@@ -34,6 +35,10 @@ export class InteractionsComponent {
             valueFormatter: (params: any) => {
                 return params.value ? params.value.toLocaleString() : '';
             },
+            filterParams: {
+                filterOptions: ['lessThan', 'greaterThan', 'inRange' ],
+                closeOnApply: true,
+            } as IDateFilterParams,
             minWidth: 210,
             wrapText:true,
         },

@@ -21,7 +21,7 @@ export class LoginComponent {
   onLoginUser() {
     this.authService.loginUser(this.username, this.password).subscribe((response: any) => {
       this.authService.saveToken(response.access_token)
-      this.loginMessage = 'Login Successful! Redirecting to home page'
+      this.loginMessage = 'Login Successful! Redirecting to home page...'
       setTimeout(() => {
         this.router.navigate(['/leads'])
       }, 5000)

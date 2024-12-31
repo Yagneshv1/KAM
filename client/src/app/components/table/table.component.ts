@@ -14,7 +14,6 @@ export class TableComponent {
     @Output() cellClickedEvent = new EventEmitter<any>();
 
     onCellClicked(event: any) {
-        console.log(event)
         this.cellClickedEvent.emit({
             headerName: event.colDef.headerName,
             rowData: event.data

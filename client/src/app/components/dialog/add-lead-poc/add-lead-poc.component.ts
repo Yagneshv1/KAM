@@ -16,16 +16,26 @@ export class AddLeadPocDialogComponent implements OnInit {
     ) {
 
     }
-
+    
     ngOnInit() {
         this.form = this.fb.group({
             name: ['', Validators.required],
-            age: ['', Validators.required],
-            gender: [''],
-            mobile: [''],
-            email: [''],
-            from_date: [''],
-            to_date: ['']
+            age: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+            role: ['', Validators.required],
+            gender: ['', Validators.required],
+            mobile: ['', Validators.minLength(10)],
+            email: ['', Validators.email],
+            from_date: ['', Validators.required],
+            to_date: [''],
+            isPresent: ['']
+        });
+
+        this.form.get('isPresent')?.valueChanges.subscribe((isPresent) => {
+          if (isPresent) {
+            this.form.get('to_date')?.disable();
+          } else {
+            this.form.get('to_date')?.enable();
+          }
         });
     }
 
@@ -33,6 +43,7 @@ export class AddLeadPocDialogComponent implements OnInit {
     const pocData: any = {
       name: this.form.get('name')?.value,
       age: this.form.get('age')?.value,
+      role: this.form.get('role')?.value,
       gender: this.form.get('gender')?.value,
       mobile: this.form.get('mobile')?.value,
       email: this.form.get('email')?.value,

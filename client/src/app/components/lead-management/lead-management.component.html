@@ -1,4 +1,4 @@
 <div>
-    <button mat-raised-button (click)="OnAddNewLead()">Add Lead</button>
-    <app-table  style="height: 90vh;" [rowData]="rowData" [columnDefs]="columnDefs" (cellClickedEvent)="onNodeClicked($event)"></app-table>
+    <button mat-raised-button style="width: 100%;" (click)="OnAddNewLead()" color="primary">Add Lead</button>
+    <app-table  style="height: 80vh;" [rowData]="rowData" [columnDefs]="columnDefs" (cellClickedEvent)="onNodeClicked($event)"></app-table>
 </div>

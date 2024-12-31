@@ -1,5 +1,5 @@
-<div class="dialog-size-alignment-styling" mat-dialog-content [formGroup]="form">
-    <h2>Add new lead details</h2>
+<div mat-dialog-content [formGroup]="form" class="dialog-size-alignment">
+    <h2 style="justify-content: center; display: flex;">Add new lead details</h2>
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" placeholder="Name">
@@ -25,6 +25,10 @@
         <input matInput formControlName="email" >
     </mat-form-field>
     <mat-form-field>
+        <mat-label>Contact Number</mat-label>
+        <input matInput formControlName="mobile" type="tel">
+    </mat-form-field>
+    <mat-form-field>
         <mat-label>Website</mat-label>
         <input matInput formControlName="website" >
     </mat-form-field>
@@ -33,13 +37,13 @@
         <input matInput formControlName="domain" >
     </mat-form-field>
     <mat-form-field>
-            <mat-label>Call Frequency</mat-label>
-            <mat-select formControlName="call_frequency">
-              <mat-option *ngFor="let frequency of callFrequencies">{{frequency}}</mat-option>
-            </mat-select>
+        <mat-label>Call Frequency</mat-label>
+        <mat-select formControlName="call_frequency">
+            <mat-option *ngFor="let frequency of callFrequencies" [value]="frequency">{{frequency}}</mat-option>
+        </mat-select>
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button (click)="onSubmit()" [disabled]="this.form.invalid">Add</button>
+    <button mat-raised-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button (click)="onSubmit()" [disabled]="this.form.invalid" color="primary">Add</button>
 </div>

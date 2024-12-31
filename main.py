@@ -59,7 +59,6 @@ def signup():
             return jsonify({"message": "User already exists. Continue login or choose a different username."}), 401
         
         dob_values = convertDateStringToParts(user_details.get('dob'))
-        doj_values = convertDateStringToParts(user_details.get('joining_date'))
         parameters = {
             'username': user_details.get('username'),
             'password': bcrypt.generate_password_hash(user_details.get('password')).decode('utf-8'),
@@ -67,12 +66,11 @@ def signup():
             'role': user_details.get('role'),
             'dob': date(dob_values[0], dob_values[1], dob_values[2]),
             'mobile': user_details.get('mobile'),
-            'email': user_details.get('email'),
-            'joining_date': date(doj_values[0], doj_values[1], doj_values[2])
+            'email': user_details.get('email')
         }
 
-        insert_query = text("""INSERT INTO users(username, user_password, kam_name, kam_role, date_of_birth, mobile_no, email, joining_date) 
-                            VALUES (:username, :password, :name, :role, :dob, :mobile, :email, :joining_date)""")
+        insert_query = text("""INSERT INTO users(username, user_password, kam_name, kam_role, date_of_birth, mobile_no, email) 
+                            VALUES (:username, :password, :name, :role, :dob, :mobile, :email)""")
         
         db_instance.execute_ddl_and_dml_commands(insert_query, parameters)
         return jsonify({"message": "User registered successfully!", "status": "success"}), 200
