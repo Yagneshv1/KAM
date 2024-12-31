@@ -40,9 +40,9 @@ CREATE TABLE INTERACTIONS(
     CONSTRAINT fk_lead FOREIGN KEY(lead_id) REFERENCES leads(lead_id) 
 )
 CREATE TABLE INTERACTS(
-    poc_id int,
-    interaction_time timestamptz,
-    lead_id int,
+    poc_id int not null,
+    interaction_time timestamptz not null,
+    lead_id int not null,
     CONSTRAINT poc_interaction_pk PRIMARY KEY(interaction_time, lead_id, poc_id),
     CONSTRAINT fk_poc FOREIGN KEY(poc_id) REFERENCES Pocs(poc_id),
     CONSTRAINT fk_interaction FOREIGN KEY(interaction_time, lead_id) REFERENCES INTERACTIONS(interaction_time, lead_id)
@@ -51,7 +51,7 @@ CREATE TABLE ORDERS(
     order_id serial PRIMARY KEY,
     poc_id int,
     interaction_time timestamptz,
-    lead_id int,
+    lead_id int not null,
     order_time timestamptz not null,
     order_details text not null,
     order_value bigint not null check(order_value >= 0),
@@ -168,12 +168,16 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION get_todays_calls()
 RETURNS TABLE (
     leadName varchar(100),
-    leadEmail varchar(75)
+    leadEmail varchar(75),
+    leadMobile bigint,
+    pocName varchar(100),
+    pocEmail text,
+    pocMobile bigint
 ) AS
 $$
 BEGIN
     RETURN QUERY
-        SELECT lead_name, email FROM leads
+        SELECT lead_name, email, mobile, poc_name, poc_email, poc_mobile FROM leads natural join pocs
         WHERE 
         last_call is null OR
         (CASE
@@ -183,8 +187,8 @@ BEGIN
             WHEN call_frequency = 'Semi-Monthly' THEN 
                 CASE
                     WHEN EXTRACT(DAY FROM last_call) <= 15
-                    THEN last_call + INTERVAL '15 days'  -- Next 15th
-                    ELSE last_call + INTERVAL '1 month'  -- End of next month
+                    THEN last_call + INTERVAL '15 days'
+                    ELSE last_call + INTERVAL '1 month'
                 END
             WHEN call_frequency = 'Monthly' THEN last_call + INTERVAL '1 month'
             WHEN call_frequency = 'Quarterly' THEN last_call + INTERVAL '3 months'

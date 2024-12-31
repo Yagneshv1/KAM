@@ -52,10 +52,10 @@ export class AddInteractionDialogComponent implements OnInit {
         });
     }
 
-    onLeadChange() {
+    onParamsChange() {
       const leadId = this.form.get('lead_id')?.value
       this.leadPocData.map((lead: any) => {
-        if (lead.lead_id == leadId) 
+        if ( lead.lead_id == leadId)
           this.pocInfo.push({pocName: lead.poc_name, pocId: lead.poc_id})
       })
     }

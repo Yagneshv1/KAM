@@ -1,0 +1,5 @@
+.dialog-size-alignment{
+    display: flex;
+    flex-direction: column;
+    min-width: 350px;
+}

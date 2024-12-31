@@ -1,14 +1,14 @@
-<div class="dialog-size-alignment-styling" mat-dialog-content [formGroup]="form">
-    <h2>Add new interaction and order details</h2>
+<div class="dialog-size-alignment" mat-dialog-content [formGroup]="form">
+    <h2 style="display: flex; justify-content: center;">Add new interaction and order details</h2>
     <mat-form-field>
       <mat-label>Lead ID</mat-label>
-        <mat-select formControlName="lead_id" (selectionChange)="onLeadChange()">
+        <mat-select formControlName="lead_id" (selectionChange)="onParamsChange()">
             <mat-option *ngFor="let lead of leadsInfo" [value]="lead.leadId">{{lead.leadName}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Time</mat-label>
-        <input matInput formControlName="time" type="datetime-local">
+        <input matInput formControlName="time" type="datetime-local" (input)="onParamsChange()">
     </mat-form-field>
     <mat-form-field>
         <mat-label>Mode</mat-label>
@@ -24,20 +24,20 @@
             <mat-option *ngFor="let poc of pocInfo" [value]="poc.pocId">{{poc.pocName}}</mat-option>
         </mat-select>
     </mat-form-field>
-<div formArrayName="orders">
-    <div *ngFor="let order of orders.controls; let i = index" [formGroupName]="i">
-        <mat-form-field>
-            <mat-label>Details</mat-label>
-            <input matInput formControlName="order_details" >
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Order Value</mat-label>
-            <input matInput formControlName="order_value" >
-        </mat-form-field>
-        <button mat-raised-button (click)="removeOrder(i)">Remove Order</button>
+    <div formArrayName="orders">
+        <div *ngFor="let order of orders.controls; let i = index" [formGroupName]="i">
+            <mat-form-field>
+                <mat-label>Details</mat-label>
+                <input matInput formControlName="order_details" >
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Order Value</mat-label>
+                <input matInput formControlName="order_value" >
+            </mat-form-field>
+            <button mat-raised-button (click)="removeOrder(i)">Remove Order</button>
+        </div>
+        <button mat-raised-button (click)="addOrder()">Add Order</button>
     </div>
-    <button mat-raised-button (click)="addOrder()">Add Order</button>
-  </div>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Cancel</button>

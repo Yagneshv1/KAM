@@ -22,7 +22,51 @@ export class CallPlannerComponent {
         },
         { 
             field: 'leademail',
-            headerName: "Email", 
+            headerName: "Lead Email", 
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['clear', 'apply'],
+                closeOnApply: true,
+            } as ITextFilterParams,
+            minWidth: 210,
+            wrapText:true,
+        },
+        { 
+            field: 'leadmobile',
+            headerName: "Lead Mobile", 
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['clear', 'apply'],
+                closeOnApply: true,
+            } as ITextFilterParams,
+            minWidth: 210,
+            wrapText:true,
+        },
+        { 
+            field: 'pocname',
+            headerName: "POC Name", 
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['clear', 'apply'],
+                closeOnApply: true,
+            } as ITextFilterParams,
+            minWidth: 210,
+            wrapText:true,
+        },
+        { 
+            field: 'pocemail',
+            headerName: "POC Email", 
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['clear', 'apply'],
+                closeOnApply: true,
+            } as ITextFilterParams,
+            minWidth: 210,
+            wrapText:true,
+        },
+        { 
+            field: 'leadmobile',
+            headerName: "POC Mobile", 
             filter: 'agTextColumnFilter',
             filterParams: {
                 buttons: ['clear', 'apply'],

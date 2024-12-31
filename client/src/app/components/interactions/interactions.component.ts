@@ -81,6 +81,28 @@ export class InteractionsComponent {
             } as ITextFilterParams,
             minWidth: 210,
             wrapText:true,
+        },
+        { 
+            field: 'order_value',
+            headerName: "Order Value",
+            filter: 'agNumberColumnFilter',
+            filterParams: {
+                buttons: ['clear', 'apply'],
+                closeOnApply: true,
+            } as INumberFilterParams,
+            minWidth: 210,
+            wrapText:true,
+        },
+        { 
+            field: 'order_id',
+            headerName: "Order ID",
+            filter: 'agNumberColumnFilter',
+            filterParams: {
+                buttons: ['clear', 'apply'],
+                closeOnApply: true,
+            } as INumberFilterParams,
+            minWidth: 210,
+            wrapText:true,
         }
     ]
 
