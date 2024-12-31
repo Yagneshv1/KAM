@@ -54,7 +54,7 @@ CREATE TABLE ORDERS(
     lead_id int not null,
     order_time timestamptz not null,
     order_details text not null,
-    order_value bigint not null check(order_value >= 0),
+    order_value numeric not null check(order_value >= 0),
     CONSTRAINT fk_poc FOREIGN KEY(poc_id) REFERENCES Pocs(poc_id),
     CONSTRAINT fk_interaction FOREIGN KEY(interaction_time, lead_id) REFERENCES INTERACTIONS(interaction_time, lead_id)
 )
@@ -134,6 +134,7 @@ RETURNS TABLE (
     lead varchar(100),
     order_value NUMERIC,
     count INT,
+    performance_month timestamptz,
     performance BOOLEAN
 ) AS
 $$
@@ -153,13 +154,14 @@ SELECT
     lead_name,
     avg_order_value,
     order_count,
+    current_month AS measured_month,
     CASE 
         WHEN prev_avg_order_value IS NULL THEN TRUE
         WHEN avg_order_value < prev_avg_order_value * 0.8 THEN FALSE
         ELSE TRUE
     END AS performance
 FROM month_comparison
-ORDER BY lead_id, current_month;
+ORDER BY lead_id, current_month DESC;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -179,7 +181,8 @@ BEGIN
     RETURN QUERY
         SELECT lead_name, email, mobile, poc_name, poc_email, poc_mobile FROM leads natural join pocs
         WHERE 
-        last_call is null OR
+        lead_status != 'Lost' AND
+        (last_call is null OR
         (CASE
             WHEN call_frequency = 'Daily' THEN last_call + INTERVAL '1 day'
             WHEN call_frequency = 'Weekly' THEN last_call + INTERVAL '1 week'
@@ -193,7 +196,7 @@ BEGIN
             WHEN call_frequency = 'Monthly' THEN last_call + INTERVAL '1 month'
             WHEN call_frequency = 'Quarterly' THEN last_call + INTERVAL '3 months'
             WHEN call_frequency = 'Yearly' THEN last_call + INTERVAL '1 year'
-        END <= NOW());
+        END <= NOW()));
 END;
 $$ LANGUAGE plpgsql;
 
@@ -232,27 +235,23 @@ BEGIN
             p_interaction_time, 
             p_lead_id, 
             p_interaction_time, 
-            order_record->>'order_details',  -- Accessing order_details
-            (order_record->>'order_value')
+            order_record->>'order_details',
+            (order_record->>'order_value') :: numeric
         );
     END LOOP;
 
-    -- Update lead status: if New, change to Contacted
     UPDATE leads
     SET last_call = GREATEST(last_call, p_interaction_time)
     WHERE lead_id = p_lead_id;
 
-    -- Get the current status of the lead
     SELECT lead_status INTO lead_current_status FROM leads WHERE lead_id = p_lead_id;
 
-    -- Change status to Contacted if it's New
     IF lead_current_status = 'New' THEN
         UPDATE leads
         SET lead_status = 'Contacted'
         WHERE lead_id = p_lead_id;
     END IF;
 
-    -- Change status to Converted if there are orders and status is not already Converted
     IF EXISTS (SELECT 1 FROM orders WHERE lead_id = p_lead_id) AND lead_current_status != 'Converted' THEN
         UPDATE leads
         SET lead_status = 'Converted'
@@ -260,3 +259,35 @@ BEGIN
     END IF;
 END;
 $$;
+
+
+CREATE OR REPLACE PROCEDURE update_lead_status_nightly()
+LANGUAGE plpgsql AS $$
+BEGIN
+    WITH latest_order AS (
+        SELECT
+            l.lead_id AS lead_id,
+            MAX(o.order_time) AS last_order_date
+        FROM
+            leads l
+        LEFT JOIN
+            orders o ON l.lead_id = o.lead_id
+        GROUP BY
+            l.lead_id
+    )
+    
+    UPDATE
+        leads l
+    SET
+        lead_status = CASE
+            WHEN lo.last_order_date IS NULL THEN 'Inactive'
+            WHEN lo.last_order_date < NOW() - INTERVAL '3 months' THEN 'Lost'
+            ELSE l.lead_status
+        END
+    FROM
+        latest_order lo
+    WHERE
+        l.lead_id = lo.lead_id;
+END;
+$$;
+

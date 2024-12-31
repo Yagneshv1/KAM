@@ -6,7 +6,7 @@ sqlalchemy.__version__
 from flask_cors import CORS
 from datetime import date
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -161,7 +161,10 @@ def get_interactions():
         return jsonify({"data": interactions_data, "status": "success"}), 200
     else:
         interaction_data = request.get_json()
-        interaction_data["orders"] = json.dumps(interaction_data["orders"])
+        for order in interaction_data["orders"]:
+            order["order_value"] = float(order["order_value"])
+
+        interaction_data["orders"] = json.dumps(interaction_data["orders"], default=str)
         interaction_data["lead_id"] = int(interaction_data["lead_id"])
         interaction_data["poc_id"] = int(interaction_data["poc_id"])
 
@@ -250,16 +253,16 @@ class PostgresqlDB:
         connection = self.engine.connect()
         trans = connection.begin()
 
-        # try:
-        if values is not None:
-            connection.execute(statement, values)
-        else:
-            connection.execute(statement)
-        trans.commit()
-        connection.close()        
-        # except Exception as e:
-        #     connection.rollback()
-        #     connection.close()
+        try:
+            if values is not None:
+                connection.execute(statement, values)
+            else:
+                connection.execute(statement)
+            trans.commit()
+            connection.close()        
+        except Exception as e:
+            connection.rollback()
+            connection.close()
 
 
 if __name__=='__main__':

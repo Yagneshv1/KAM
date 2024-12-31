@@ -47,6 +47,17 @@ export class PerformanceComponent {
             } as INumberFilterParams,
             minWidth: 210,
             wrapText:true,
+        },
+        { 
+            field: 'performance_month',
+            headerName: "Measured Month",
+            valueGetter: (params: any) => {
+                const month = new Date(params.data.performance_month).toLocaleString('en-US', {month: 'long'});
+                const year = new Date(params.data.performance_month).getFullYear()
+                return `${month} ${year}`
+            },
+            minWidth: 210,
+            wrapText:true,
         }
     ]
 

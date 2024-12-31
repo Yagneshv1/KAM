@@ -74,7 +74,7 @@ export class AddInteractionDialogComponent implements OnInit {
     addOrder() {
         const orderGroup = this.fb.group({
             order_details: ['', Validators.required],
-            order_value: ['', [Validators.required, Validators.min(0.01), Validators.maxLength(4)]]
+            order_value: ['', [Validators.required, Validators.min(0.01)]]
         });
         this.orders.push(orderGroup);
     }
