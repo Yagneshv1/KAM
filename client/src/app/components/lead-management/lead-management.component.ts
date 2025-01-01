@@ -4,7 +4,6 @@ import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { LeadService } from 'src/app/services/lead.service';
 import { AddLeadDialogComponent } from '../dialog/add-lead/add-lead-dialog.component';
 import { Router } from '@angular/router';
-import { ProgressSpinnerService } from '../progress-spinner/progress-spinner.service';
 
 @Component({
   selector: 'app-lead-manager',
@@ -128,8 +127,7 @@ export class LeadManagementComponent {
     
     constructor(private leadService: LeadService,
         private dialog: MatDialog,
-        private router: Router,
-        private spinnerService: ProgressSpinnerService
+        private router: Router
     ) {
 
     }

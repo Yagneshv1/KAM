@@ -83,20 +83,20 @@ export class AddInteractionDialogComponent implements OnInit {
         this.orders.removeAt(index);
     }
 
-  onSubmit() {
-    const interactionData: any = {
-      lead_id: this.form.get('lead_id')?.value,
-      interaction_time: this.datePipe.transform(new Date(this.form.get('time')?.value).toISOString(), 'yyyy-MM-dd HH:mm:ss', 'UTC'),
-      interaction_mode: this.form.get('mode')?.value,
-      interaction_details: this.form.get('details')?.value,
-      poc_id: this.form.get('poc')?.value,
-      orders: this.form.get('orders')?.value
-    };
-    this.dataSubmitted.emit(interactionData);
-    this.onNoClick();
-  }
-    
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+    onSubmit() {
+      const interactionData: any = {
+        lead_id: this.form.get('lead_id')?.value,
+        interaction_time: this.datePipe.transform(new Date(this.form.get('time')?.value).toISOString(), 'yyyy-MM-dd HH:mm:ss', 'UTC'),
+        interaction_mode: this.form.get('mode')?.value,
+        interaction_details: this.form.get('details')?.value,
+        poc_id: this.form.get('poc')?.value,
+        orders: this.form.get('orders')?.value
+      };
+      this.dataSubmitted.emit(interactionData);
+      this.onNoClick();
+    }
+      
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
 }

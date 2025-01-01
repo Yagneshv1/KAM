@@ -15,8 +15,12 @@ export class SessionEndedDialogComponent {
         dialogRef.disableClose = true;
     }
 
+    windowReload(){
+        window.location.reload();
+    }
+
     redirectToLogin(){
         this.dialogRef.close()
-        this.router.navigate(['/login']).then(() => window.location.reload());
+        this.router.navigate(['/login']).then(() => this.windowReload());
     }
 }
