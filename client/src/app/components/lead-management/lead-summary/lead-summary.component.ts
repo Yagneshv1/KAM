@@ -10,10 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LeadSummaryComponent {
 
-    constructor(private leadService: LeadService,
-        private dialog: MatDialog,
-        private router: Router
-    ) {
+    constructor() {
 
     }
 

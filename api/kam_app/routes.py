@@ -106,6 +106,23 @@ def get_leads():
         handle_errors(e, True)
     except Exception as e:
         handle_errors(e)
+
+@app.route('/api/leads', methods=['PUT'])
+@jwt_required()
+def update_leads():
+    try:
+        db_instance = PostgresqlDB()
+        leadData = request.get_json()
+        query = text('''UPDATE leads set lead_name=:name, lead_address=:address, lead_city=:city, 
+                        lead_state=:state, lead_pincode=:pincode, email=:email, mobile=:mobile, website=:website, 
+                        lead_domain=:domain, call_frequency=:call_frequency WHERE lead_id=:lead_id''')
+
+        db_instance.execute_ddl_and_dml_commands(query, leadData)
+        return jsonify({"message": "Lead updated successfully!"}), 204
+    except SQLAlchemyError as e:
+        handle_errors(e, True)
+    except Exception as e:
+        handle_errors(e)
     
 @app.route('/api/lead/<int:id>/poc-info', methods=['GET', 'POST'])
 @jwt_required()

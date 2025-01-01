@@ -4,6 +4,7 @@ import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { LeadService } from 'src/app/services/lead.service';
 import { AddLeadDialogComponent } from '../dialog/add-lead/add-lead-dialog.component';
 import { Router } from '@angular/router';
+import { error } from 'handsontable/helpers';
 
 @Component({
   selector: 'app-lead-manager',
@@ -141,6 +142,10 @@ export class LeadManagementComponent {
         this.leadService.getLeadsData().subscribe((res: any) => {
             this.rowData = res.data
             this.isLoading = false
+        },
+        (error) => {
+            this.isLoading = false;
+            this.rowData = []
         })
     }
 
@@ -152,6 +157,9 @@ export class LeadManagementComponent {
             this.leadService.addNewLead(leadData).subscribe((res: any) => {
                 this.isLoading = false;
                 this.getLeadsData()
+            },
+            (error) => {
+                this.isLoading = false
             })
         })  
     }

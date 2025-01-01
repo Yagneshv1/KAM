@@ -141,6 +141,10 @@ export class LeadPocComponent {
         this.leadService.getLeadPocData(this.leadId).subscribe((res: any) => {
             this.rowData = res.data
             this.isLoading = false;
+        },
+        (error) => {
+            this.isLoading = false;
+            this.rowData = []
         })
     }
 
@@ -152,6 +156,9 @@ export class LeadPocComponent {
             this.leadService.addNewPoc(this.leadId, pocData).subscribe((res: any) => {
                 this.isLoading = false
                 this.getLeadPocData()
+            },
+            (error) => {
+                this.isLoading = false
             })
         }) 
     }

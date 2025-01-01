@@ -125,6 +125,10 @@ export class InteractionsComponent {
         this.interactionService.getInteractionsData().subscribe((res: any) => {
             this.rowData = res.data
             this.isLoading = false;
+        },
+        (error) => {
+            this.isLoading = false;
+            this.rowData = []
         })
     }
 
@@ -136,6 +140,9 @@ export class InteractionsComponent {
             this.interactionService.addNewInteraction(interactionData).subscribe((res: any) => {
                 this.isLoading = false
                 this.getInteractionsData()
+            },
+            (error) => {
+                this.isLoading = false
             })
         }) 
     }
