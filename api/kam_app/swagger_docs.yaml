@@ -35,7 +35,9 @@ paths:
         200:
           description: "User logged in successfully"
         401:
-          description: "Incorrect password or Invalid user"
+          description: "Authorization failed"
+        500:
+          description: "Internal Server Error"
 
   /api/signup:
     post:
@@ -81,10 +83,12 @@ paths:
               - email
 
       responses:
-        200:
-          description: "User registered in successfully"
-        400:
-          description: "Failed to register user"
+        201:
+          description: "User registered successfully"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
 
   /api/leads:
     get:
@@ -97,6 +101,10 @@ paths:
       responses:
         200:
           description: "Successfully retrieved leads"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
     post:
       summary: "Create a new lead"
       parameters:
@@ -156,8 +164,12 @@ paths:
               - mobile
               - call_frequency
       responses:
-        200:
+        201:
           description: "Lead added successfully"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
 
   /api/performance-metrics:
     get:
@@ -165,6 +177,10 @@ paths:
       responses:
         200:
           description: "Successfully fetched performances of the leads"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
 
   /api/call-planner:
     get:
@@ -172,6 +188,10 @@ paths:
       responses:
         200:
           description: "Successfully fetched the call planning"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
 
   /api/interactions:
     get:
@@ -179,6 +199,10 @@ paths:
       responses:
         200:
           description: "Successfully retrieved the interactions and orders information"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
     post:
       summary: "Adds a new interaction and the corresponding orders"
       parameters:
@@ -222,8 +246,12 @@ paths:
               - interaction_time
               - lead_id
       responses:
-        200:
+        201:
           description: "Interaction recorded successfully"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
 
   /api/lead/{lead_id}/poc-info:
     get:
@@ -237,6 +265,10 @@ paths:
       responses:
         200:
           description: "Successfully retrieved the POCs of a lead"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
     post:
       summary: "Adds a new POC for a lead"
       parameters:
@@ -290,5 +322,9 @@ paths:
               - role
               - from_date
       responses:
-        200:
+        201:
           description: "POC recorded successfully"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
