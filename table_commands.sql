@@ -158,7 +158,27 @@ ORDER BY lead_id, current_month DESC;
 END;
 $$ LANGUAGE plpgsql;
 
-
+CREATE OR REPLACE FUNCTION get_interactions()
+RETURNS TABLE (
+    leadName varchar(100),
+    interactionTime timestamptz,
+    interactionMode varchar(50),
+    interactionDetails text,
+    pocName varchar(100),
+    orderTime timestamptz,
+    orderValue numeric,
+    orderDetails text,
+    orderId int
+) AS
+$$
+BEGIN
+    RETURN QUERY
+        SELECT p.lead_name, p.interaction_time, p.interaction_mode, p.interaction_details, p.poc_name, order_time, order_value, order_details, order_id
+        FROM (SELECT lead_name, interaction_time, interaction_mode, interaction_details, poc_name, lead_id, poc_id from 
+            interactions natural join interacts natural join pocs natural join leads) as p 
+        left join orders on p.lead_id = orders.lead_id and p.interaction_time = orders.interaction_time and p.poc_id = orders.poc_id;
+END;
+$$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION get_todays_calls()
 RETURNS TABLE (

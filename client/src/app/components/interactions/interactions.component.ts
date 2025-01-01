@@ -13,7 +13,7 @@ import { IDateFilterParams } from 'ag-grid-enterprise';
 export class InteractionsComponent {
    columnDefs = [
         { 
-            field: 'lead_name',
+            field: 'leadname',
             headerName: "Lead Name", 
             filter: 'agTextColumnFilter',
             filterParams: {
@@ -24,11 +24,11 @@ export class InteractionsComponent {
             wrapText:true,
         },
         { 
-            field: 'interaction_time',
+            field: 'interactiontime',
             headerName: "Interaction Time", 
             filter: 'agDateColumnFilter',
             valueGetter: (params: any) => {
-                const utcDateString = params.data.interaction_time;
+                const utcDateString = params.data.interactiontime;
                 const localDate = new Date(utcDateString)
                 return localDate;
             },
@@ -43,14 +43,14 @@ export class InteractionsComponent {
             wrapText:true,
         },
         { 
-            field: 'interaction_mode',
+            field: 'interactionmode',
             headerName: "Interaction Mode", 
             filter: true,
             minWidth: 210,
             wrapText:true,
         },
         { 
-            field: 'interaction_details',
+            field: 'interactiondetails',
             headerName: "Details", 
             filter: 'agNumberColumnFilter',
             filterParams: {
@@ -61,7 +61,7 @@ export class InteractionsComponent {
             wrapText:true,
         },
         { 
-            field: 'poc_name',
+            field: 'pocname',
             headerName: "POC Name", 
             filter: 'agTextColumnFilter',
             filterParams: {
@@ -72,7 +72,7 @@ export class InteractionsComponent {
             wrapText:true,
         },
         { 
-            field: 'order_details',
+            field: 'orderdetails',
             headerName: "Order Details",
             filter: 'agTextColumnFilter',
             filterParams: {
@@ -83,7 +83,7 @@ export class InteractionsComponent {
             wrapText:true,
         },
         { 
-            field: 'order_value',
+            field: 'ordervalue',
             headerName: "Order Value",
             filter: 'agNumberColumnFilter',
             filterParams: {
@@ -94,7 +94,7 @@ export class InteractionsComponent {
             wrapText:true,
         },
         { 
-            field: 'order_id',
+            field: 'orderid',
             headerName: "Order ID",
             filter: 'agNumberColumnFilter',
             filterParams: {

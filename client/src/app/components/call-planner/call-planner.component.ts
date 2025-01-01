@@ -93,6 +93,10 @@ export class CallPlannerComponent {
         this.callPlannerService.getCallPlanner().subscribe((res: any) => {
             this.isLoading = false
             this.rowData = res.data
+        },
+        (error) => {
+            this.isLoading = false
+            this.rowData = []
         })
     }
 

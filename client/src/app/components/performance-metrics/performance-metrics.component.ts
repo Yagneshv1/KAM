@@ -76,6 +76,9 @@ export class PerformanceComponent {
         this.performanceService.getPerformanceData().subscribe((res: any) => {
             this.isLoading = false
             this.rowData = res.data
+        }, (error) => {
+            this.isLoading = false;
+            this.rowData = []
         })
     }
 
