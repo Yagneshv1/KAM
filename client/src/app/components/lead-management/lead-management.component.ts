@@ -4,7 +4,7 @@ import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { LeadService } from 'src/app/services/lead.service';
 import { AddEditLeadDialogComponent } from '../dialog/add-edit-lead/add-edit-lead-dialog.component';
 import { Router } from '@angular/router';
-import { EditLeadRendererComponent } from '../dialog/edit-lead/edit-lead-dialog.component';
+import { EditLeadRendererComponent } from '../dialog/edit-lead/edit-lead.component';
 
 @Component({
   selector: 'app-lead-manager',

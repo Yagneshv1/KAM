@@ -38,7 +38,7 @@ import { ModuleRegistry } from 'ag-grid-community';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SessionEndedDialogComponent } from './components/dialog/session-ended-dialog/sessionEndedDialog.component';
-import { EditLeadRendererComponent } from './components/dialog/edit-lead/edit-lead-dialog.component';
+import { EditLeadRendererComponent } from './components/dialog/edit-lead/edit-lead.component';
 
 ModuleRegistry.registerModules([SetFilterModule]);
 registerAllModules();
