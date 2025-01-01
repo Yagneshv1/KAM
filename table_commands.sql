@@ -76,13 +76,6 @@ CREATE TABLE USERS(
     mobile_no bigint not null,
     email varchar(75) not null
 )
-CREATE TABLE Manages(
-    kam_id int,
-    lead_id int,
-    CONSTRAINT manages_pk PRIMARY KEY(kam_id, lead_id),
-    CONSTRAINT fk_lead FOREIGN KEY(lead_id) REFERENCES leads(lead_id),
-    CONSTRAINT fk_kam FOREIGN KEY(kam_id) REFERENCES USERS(kam_id)
-)
 
 CREATE OR REPLACE PROCEDURE upsert_performance_metrics(
     new_lead_id INT,
