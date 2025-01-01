@@ -62,7 +62,7 @@ export class PerformanceComponent {
     ]
 
     rowData = []
-
+    public isLoading: boolean = false
     constructor(private performanceService: performanceService) {
 
     }
@@ -72,7 +72,9 @@ export class PerformanceComponent {
     }
 
     getCallPlanner() {
+        this.isLoading = true
         this.performanceService.getPerformanceData().subscribe((res: any) => {
+            this.isLoading = false
             this.rowData = res.data
         })
     }

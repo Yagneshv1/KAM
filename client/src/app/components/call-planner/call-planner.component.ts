@@ -78,6 +78,7 @@ export class CallPlannerComponent {
     ]
 
     rowData = []
+    public isLoading: boolean = false;
 
     constructor(private callPlannerService: callPlannerService) {
 
@@ -88,7 +89,9 @@ export class CallPlannerComponent {
     }
 
     getCallPlanner() {
+        this.isLoading = true
         this.callPlannerService.getCallPlanner().subscribe((res: any) => {
+            this.isLoading = false
             this.rowData = res.data
         })
     }

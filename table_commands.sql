@@ -291,3 +291,11 @@ BEGIN
 END;
 $$;
 
+CREATE INDEX lead_id_index on leads using hash(lead_id);
+CREATE INDEX interaction_lead_id_index on interactions using btree(lead_id, interaction_time);
+
+CREATE INDEX performance_metrics_lead_id_measured_time_index ON performance_metrics(lead_id, measured_time);
+
+CREATE INDEX idx_leads_call_frequency ON leads(call_frequency);
+
+CREATE INDEX idx_leads_lead_status_last_call ON leads(lead_id, lead_status, last_call);

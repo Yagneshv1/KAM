@@ -4,6 +4,7 @@ import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { LeadService } from 'src/app/services/lead.service';
 import { AddLeadDialogComponent } from '../dialog/add-lead/add-lead-dialog.component';
 import { Router } from '@angular/router';
+import { ProgressSpinnerService } from '../progress-spinner/progress-spinner.service';
 
 @Component({
   selector: 'app-lead-manager',
@@ -123,10 +124,12 @@ export class LeadManagementComponent {
     ]
 
     rowData = []
-
+    isLoading: boolean = false;
+    
     constructor(private leadService: LeadService,
         private dialog: MatDialog,
-        private router: Router
+        private router: Router,
+        private spinnerService: ProgressSpinnerService
     ) {
 
     }
@@ -136,8 +139,10 @@ export class LeadManagementComponent {
     }
 
     getLeadsData() {
+        this.isLoading = true
         this.leadService.getLeadsData().subscribe((res: any) => {
             this.rowData = res.data
+            this.isLoading = false
         })
     }
 
@@ -145,7 +150,9 @@ export class LeadManagementComponent {
         const dialogConfig = new MatDialogConfig();
         const dialogRef = this.dialog.open(AddLeadDialogComponent, dialogConfig);
         dialogRef.componentInstance.dataSubmitted.subscribe((leadData: any)=>{
+            this.isLoading = true;
             this.leadService.addNewLead(leadData).subscribe((res: any) => {
+                this.isLoading = false;
                 this.getLeadsData()
             })
         })  

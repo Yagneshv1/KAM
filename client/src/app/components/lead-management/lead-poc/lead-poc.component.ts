@@ -120,6 +120,7 @@ export class LeadPocComponent {
 
     rowData = []
     public leadId: string = '';
+    public isLoading: boolean = false;
 
     constructor(private leadService: LeadService,
         private activatedRoute: ActivatedRoute,
@@ -136,8 +137,10 @@ export class LeadPocComponent {
     }
 
     getLeadPocData() {
+        this.isLoading = true;
         this.leadService.getLeadPocData(this.leadId).subscribe((res: any) => {
             this.rowData = res.data
+            this.isLoading = false;
         })
     }
 
@@ -145,7 +148,9 @@ export class LeadPocComponent {
         const dialogConfig = new MatDialogConfig();
         const dialogRef = this.dialog.open(AddLeadPocDialogComponent, dialogConfig);
         dialogRef.componentInstance.dataSubmitted.subscribe((pocData: any)=>{
+            this.isLoading = true;
             this.leadService.addNewPoc(this.leadId, pocData).subscribe((res: any) => {
+                this.isLoading = false
                 this.getLeadPocData()
             })
         }) 

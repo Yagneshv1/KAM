@@ -1,3 +1,6 @@
+<div class="page-overlay-wrapper" *ngIf="isLoading">
+    <mat-spinner class="spinner"></mat-spinner>
+</div>
 <div>
     <app-table  style="height: 90vh;" [rowData]="rowData" [columnDefs]="columnDefs"></app-table>
 </div>

@@ -1,3 +1,6 @@
+<div class="page-overlay-wrapper" *ngIf="isLoading">
+  <mat-spinner class="spinner"></mat-spinner>
+</div>
 <div style="margin: 20px">
   <div style="display: flex; flex-direction: column;">
       <mat-form-field class="example-full-width">
@@ -14,7 +17,6 @@
   <button mat-raised-button [disabled]="!username || !password" (click)="onLoginUser()" color="primary" style="margin:10px">Login</button>
 
   <button mat-raised-button (click)="onSignUp()">Sign Up</button>
-
   <span style="margin: 20px;"><b>{{loginMessage}}</b></span>
 </div>
   

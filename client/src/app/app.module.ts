@@ -38,6 +38,7 @@ import { ModuleRegistry } from 'ag-grid-community';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SessionEndedDialogComponent } from './components/dialog/session-ended-dialog/sessionEndedDialog.component';
+import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 
 ModuleRegistry.registerModules([SetFilterModule]);
 registerAllModules();
@@ -58,7 +59,8 @@ registerAllModules();
     AddInteractionDialogComponent,
     CallPlannerComponent,
     PerformanceComponent,
-    SessionEndedDialogComponent
+    SessionEndedDialogComponent,
+    ProgressSpinnerComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -81,7 +83,8 @@ registerAllModules();
     AgGridModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

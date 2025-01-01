@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    localStorage.clear()
     this.router.navigate(['/login'])
   }
 }

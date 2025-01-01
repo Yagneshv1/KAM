@@ -22,19 +22,28 @@ export class LoginComponent {
 
   }
 
+  isLoading = false;
+
   onLoginUser() {
+    this.isLoading = true
     this.authService.loginUser(this.username, this.password).subscribe((response: any) => {
       this.authService.saveToken(response.access_token)
+      this.authService.onUserLogin()
+
       const timeLeftToExpire = this.getTimeLeftBeforeExpiration(response.access_token)
       setTimeout(()=>{
         this.openSessionEndedDialog()
       }, timeLeftToExpire)
+      
       this.loginMessage = 'Login Successful! Redirecting to home page...'
       setTimeout(() => {
         this.router.navigate(['/leads'])
-      }, 5000)
+        this.isLoading = false;
+      }, 2000)
+
     }, (err) => {
       this.loginMessage = err.error.message
+      this.isLoading = false;
     })
   }
 

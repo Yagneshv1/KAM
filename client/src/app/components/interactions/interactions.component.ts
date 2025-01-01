@@ -108,7 +108,8 @@ export class InteractionsComponent {
 
     rowData = []
     public leadId: string = '';
-
+    public isLoading: boolean = false;
+    
     constructor(private interactionService: InteractionService,
         private dialog: MatDialog
     ) {
@@ -120,8 +121,10 @@ export class InteractionsComponent {
     }
 
     getInteractionsData() {
+        this.isLoading = true
         this.interactionService.getInteractionsData().subscribe((res: any) => {
             this.rowData = res.data
+            this.isLoading = false;
         })
     }
 
@@ -129,7 +132,9 @@ export class InteractionsComponent {
         const dialogConfig = new MatDialogConfig();
         const dialogRef = this.dialog.open(AddInteractionDialogComponent, dialogConfig);
         dialogRef.componentInstance.dataSubmitted.subscribe((interactionData: any)=>{
+            this.isLoading = true
             this.interactionService.addNewInteraction(interactionData).subscribe((res: any) => {
+                this.isLoading = false
                 this.getInteractionsData()
             })
         }) 

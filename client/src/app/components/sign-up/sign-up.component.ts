@@ -20,7 +20,7 @@ export class SignUpComponent {
   });
 
   loginMessage: string = '';
-
+  public isLoading: boolean = false
   constructor(private authService: AuthenticationService,
     private router: Router
   ) {
@@ -28,6 +28,7 @@ export class SignUpComponent {
   }
 
   onSignUp() {
+    this.isLoading = true
     const userDetails = {
       'username': this.form.get('username')?.value,
       'password': this.form.get('password')?.value,
@@ -40,9 +41,11 @@ export class SignUpComponent {
 
     this.authService.signUpUser(userDetails).subscribe(res => {
       this.loginMessage = 'User registered successfully! Continue to login page.'
+      this.isLoading = false
     }, (err) => {
       console.log(err)
       this.loginMessage = 'Failed to register user.'
+      this.isLoading = false
     })
   }
 

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { LoginComponent } from '../login-page/login-page.component';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Router } from '@angular/router';
 
 interface MenuNode {
     name: string;
@@ -19,4 +22,19 @@ export class DashBoardComponent {
     { label: 'Performance Manager', routerLink: '/performance-metrics' }
   ];
 
+  public userLogin: boolean = false;
+
+  constructor(private authService: AuthenticationService,
+    private router: Router
+  ) {
+    this.authService.isUserLoggedIn.subscribe(loginStatus => {
+      this.userLogin = loginStatus
+    })
+  }
+
+  onLogoutUser() {
+    this.authService.invalidateToken()
+    this.authService.isUserLoggedIn.next(false)
+    this.router.navigate(['/login'])
+  }
 }
