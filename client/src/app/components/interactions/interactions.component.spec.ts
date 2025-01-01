@@ -36,6 +36,8 @@ describe('InteractionsComponent', () => {
     });
 
     it('should call getInteractionsData on init', () => {
+        const mockResponse: any = { data: [{ lead_name: 'test1', interaction_time: '2025-01-01T00:00:00Z', interaction_mode: 'call' }] };
+        mockInteractionService.getInteractionsData.and.returnValue(of(mockResponse));
         const getInteractionsDataSpy = spyOn(component, 'getInteractionsData').and.callThrough();
         component.ngOnInit();
         expect(getInteractionsDataSpy).toHaveBeenCalled();
