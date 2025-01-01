@@ -41,7 +41,7 @@ paths:
 
   /api/signup:
     post:
-      summary: "Register new user to the application"
+      summary: "Register new user in the application"
       parameters:
         - in: body
           name: User details
@@ -106,7 +106,7 @@ paths:
         500:
           description: "Internal Server Error"
     post:
-      summary: "Create a new lead"
+      summary: "Add a new lead"
       parameters:
         - in: body
           name: Lead details
