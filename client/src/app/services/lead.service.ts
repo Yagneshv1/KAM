@@ -22,6 +22,9 @@ export class LeadService {
         return this.httpClient.post(`${this.apiUrl}/leads`, leadData)
     }
 
+    updateLead(leadData: any) {
+        return this.httpClient.put(`${this.apiUrl}/leads`, leadData)
+    }
     getLeadPocData(leadId: string) {
         return this.httpClient.get(`${this.apiUrl}/lead/${leadId}/poc-info`)
     }

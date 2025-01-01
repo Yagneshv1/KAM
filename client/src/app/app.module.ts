@@ -24,7 +24,7 @@ import { LeadManagementComponent } from './components/lead-management/lead-manag
 import { AgGridModule } from 'ag-grid-angular';
 import { TableComponent } from './components/table/table.component';
 import { registerAllModules } from 'handsontable/registry';
-import { AddLeadDialogComponent } from './components/dialog/add-lead/add-lead-dialog.component';
+import { AddEditLeadDialogComponent } from './components/dialog/add-edit-lead/add-edit-lead-dialog.component';
 import { LeadSummaryComponent } from './components/lead-management/lead-summary/lead-summary.component';
 import { LeadPocComponent } from './components/lead-management/lead-poc/lead-poc.component';
 import { AddLeadPocDialogComponent } from './components/dialog/add-lead-poc/add-lead-poc.component';
@@ -38,6 +38,7 @@ import { ModuleRegistry } from 'ag-grid-community';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SessionEndedDialogComponent } from './components/dialog/session-ended-dialog/sessionEndedDialog.component';
+import { EditLeadRendererComponent } from './components/dialog/edit-lead/edit-lead-dialog.component';
 
 ModuleRegistry.registerModules([SetFilterModule]);
 registerAllModules();
@@ -50,7 +51,7 @@ registerAllModules();
     DashBoardComponent,
     LeadManagementComponent,
     TableComponent,
-    AddLeadDialogComponent,
+    AddEditLeadDialogComponent,
     LeadSummaryComponent,
     LeadPocComponent,
     AddLeadPocDialogComponent,
@@ -58,7 +59,8 @@ registerAllModules();
     AddInteractionDialogComponent,
     CallPlannerComponent,
     PerformanceComponent,
-    SessionEndedDialogComponent
+    SessionEndedDialogComponent,
+    EditLeadRendererComponent
   ],
   imports: [
     BrowserAnimationsModule,

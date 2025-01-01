@@ -1,5 +1,8 @@
 <div mat-dialog-content [formGroup]="form" class="dialog-size-alignment">
-    <h2 style="justify-content: center; display: flex;">Add new lead details</h2>
+    <h2 style="justify-content: center; display: flex;"><span *ngIf="data; else add">Edit</span>&nbsp;lead details</h2>
+    <ng-template #add>
+        <span>Add</span>
+    </ng-template>
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" placeholder="Name">
@@ -45,5 +48,5 @@
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button (click)="onNoClick()">Cancel</button>
-    <button mat-raised-button (click)="onSubmit()" [disabled]="this.form.invalid" color="primary">Add</button>
+    <button mat-raised-button (click)="onSubmit()" [disabled]="this.form.invalid" color="primary">{{data ? 'Edit' : 'Add'}}</button>
 </div>

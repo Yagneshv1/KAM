@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { LeadService } from 'src/app/services/lead.service';
-import { AddLeadDialogComponent } from '../dialog/add-lead/add-lead-dialog.component';
+import { AddEditLeadDialogComponent } from '../dialog/add-edit-lead/add-edit-lead-dialog.component';
 import { Router } from '@angular/router';
-import { error } from 'handsontable/helpers';
+import { EditLeadRendererComponent } from '../dialog/edit-lead/edit-lead-dialog.component';
 
 @Component({
   selector: 'app-lead-manager',
@@ -13,6 +13,12 @@ import { error } from 'handsontable/helpers';
 })
 export class LeadManagementComponent {
     columnDefs = [
+        {
+            field: 'edit',
+            headerName: '',
+            cellRenderer: EditLeadRendererComponent,
+            minWidth: 100
+        },
         { 
             field: 'lead_name',
             headerName: "Name", 
@@ -151,7 +157,7 @@ export class LeadManagementComponent {
 
     OnAddNewLead() {
         const dialogConfig = new MatDialogConfig();
-        const dialogRef = this.dialog.open(AddLeadDialogComponent, dialogConfig);
+        const dialogRef = this.dialog.open(AddEditLeadDialogComponent, dialogConfig);
         dialogRef.componentInstance.dataSubmitted.subscribe((leadData: any)=>{
             this.isLoading = true;
             this.leadService.addNewLead(leadData).subscribe((res: any) => {

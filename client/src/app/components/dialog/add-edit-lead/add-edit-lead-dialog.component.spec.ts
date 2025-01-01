@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddLeadDialogComponent } from './add-lead-dialog.component';
+import { AddEditLeadDialogComponent } from './add-edit-lead-dialog.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -10,23 +10,23 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AddLeadDialogComponent', () => {
-  let component: AddLeadDialogComponent;
-  let fixture: ComponentFixture<AddLeadDialogComponent>;
-  let mockDialogRef: jasmine.SpyObj<MatDialogRef<AddLeadDialogComponent>>;
+  let component: AddEditLeadDialogComponent;
+  let fixture: ComponentFixture<AddEditLeadDialogComponent>;
+  let mockDialogRef: jasmine.SpyObj<MatDialogRef<AddEditLeadDialogComponent>>;
 
   beforeEach(() => {
     mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
 
     TestBed.configureTestingModule({
       imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, BrowserAnimationsModule],
-      declarations: [AddLeadDialogComponent],
+      declarations: [AddEditLeadDialogComponent],
       providers: [
         { provide: MatDialogRef, useValue: mockDialogRef },
         DatePipe
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AddLeadDialogComponent);
+    fixture = TestBed.createComponent(AddEditLeadDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
