@@ -7,11 +7,17 @@ import datetime
 from flask_cors import CORS
 from datetime import date
 from flask_bcrypt import Bcrypt
+from flasgger import Swagger
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required
-
+import os
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
+swagger_template_path = os.path.join(os.path.dirname(__file__), 'swagger_docs.yaml')
+
+# Initialize Flasgger with the Swagger YAML documentation file
+swagger = Swagger(app, template_file=swagger_template_path)
+
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
@@ -104,6 +110,7 @@ def get_leads():
         return jsonify({"data": leads_data, "status": "success"}), 200
     else:
         leadData = request.get_json()
+        leadData['lead_status'] = 'New'
         query = text('''insert into leads(lead_name, lead_status, lead_address, lead_city, lead_state, lead_pincode, 
                      email, mobile, website, lead_domain, call_frequency, last_call) 
                      values(:name, :status, :address, :city, :state, :pincode, :email, :mobile, :website, :domain, :call_frequency, null)''')

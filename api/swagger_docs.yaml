@@ -1,0 +1,294 @@
+swagger: "2.0"
+info:
+  title: "KAM API"
+  description: "API documentation of KAM"
+  version: "1.0.0"
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: 'Please provide a JWT token in the Authorization header using the Bearer scheme.'
+
+paths:
+  /api/login:
+    post:
+      summary: "Login user to the application"
+      parameters:
+        - in: body
+          name: credentials
+          description: "User credentials including username and password"
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: "Username of the user"
+              password:
+                type: string
+                description: "Password of the user"
+            required:
+              - username
+              - password
+      responses:
+        200:
+          description: "User logged in successfully"
+        401:
+          description: "Incorrect password or Invalid user"
+
+  /api/signup:
+    post:
+      summary: "Register new user to the application"
+      parameters:
+        - in: body
+          name: User details
+          description: "Basic user details for registration"
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                description: "Username of the user"
+              password:
+                type: string
+                description: "Encrypted password of the user"
+              name:
+                type: string
+                description: "Full name of the user"
+              role:
+                type: string
+                description: "Role of the user in the organisation"
+              dob:
+                type: string
+                format: date
+                description: "Date of birth"
+              mobile:
+                type: string
+                description: "Mobile number of the user"
+              email:
+                type: string
+                description: "Email ID of the user"
+
+            required:
+              - username
+              - password
+              - name
+              - role
+              - dob
+              - mobile
+              - email
+
+      responses:
+        200:
+          description: "User registered in successfully"
+        400:
+          description: "Failed to register user"
+
+  /api/leads:
+    get:
+      summary: "Get a list of leads"
+      parameters:
+        - in: query
+          name: compact
+          description: "Only the basic lead and POC info"
+
+      responses:
+        200:
+          description: "Successfully retrieved leads"
+    post:
+      summary: "Create a new lead"
+      parameters:
+        - in: body
+          name: Lead details
+          description: "Basic details of the lead"
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: "Name of the lead"
+              address:
+                type: string
+                description: "Address of the lead"
+              city:
+                type: string
+                description: "City of the lead"
+              state:
+                type: string
+                description: "State of the lead"
+              pincode:
+                type: integer
+                description: "Pincode of the lead"
+              email:
+                type: string
+                description: "Email ID of the lead"
+              mobile:
+                type: string
+                description: "Mobile no of the lead"
+              website:
+                type: string
+                description: "Website of the lead"
+              domain:
+                type: string
+                description: "Domain(style) of the lead"
+              call_frequency:
+                type: string
+                enum:
+                  - Daily
+                  - Weekly
+                  - Bi-Weekly
+                  - Semi-Monthly
+                  - Monthly
+                  - Quarterly
+                  - Yearly
+                description: "Frequency of contacting the lead"
+
+            required:
+              - name
+              - address
+              - city
+              - state
+              - pincode
+              - email
+              - mobile
+              - call_frequency
+      responses:
+        200:
+          description: "Lead added successfully"
+
+  /api/performance-metrics:
+    get:
+      summary: "Get the performance trends of the leads"
+      responses:
+        200:
+          description: "Successfully fetched performances of the leads"
+
+  /api/call-planner:
+    get:
+      summary: "Get the leads info along with POC requiring calls today"
+      responses:
+        200:
+          description: "Successfully fetched the call planning"
+
+  /api/interactions:
+    get:
+      summary: "Get the list of interactions and the orders placed"
+      responses:
+        200:
+          description: "Successfully retrieved the interactions and orders information"
+    post:
+      summary: "Adds a new interaction and the corresponding orders"
+      parameters:
+        - in: body
+          name: Interaction details
+          description: "Details of the interaction and orders"
+          required: true
+          schema:
+            type: object
+            properties:
+              lead_id:
+                type: string
+                description: "ID of the lead interaction had with"
+              interaction_time:
+                type: string
+                format: date-time
+                description: "Timestamp of the interaction"
+              interaction_mode:
+                type: string
+                description: "Mode of the interaction"
+              interaction_details:
+                type: string
+                description: "Details of the interaction"
+              poc_id:
+                type: string
+                description: "POC involved in the interaction"
+              orders:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    order_details:
+                      type: string
+                    order_value:
+                      type: string
+                description: 'A list of orders made during the interaction.'
+
+            required:
+              - poc_id
+              - interaction_mode
+              - interaction_time
+              - lead_id
+      responses:
+        200:
+          description: "Interaction recorded successfully"
+
+  /api/lead/{lead_id}/poc-info:
+    get:
+      summary: "Get the list of POCs for a particular lead"
+      parameters:
+        - name: lead_id
+          in: path
+          required: true
+          type: integer
+          description: 'Lead ID in the URL path.'
+      responses:
+        200:
+          description: "Successfully retrieved the POCs of a lead"
+    post:
+      summary: "Adds a new POC for a lead"
+      parameters:
+        - in: path
+          name: lead_id
+          required: true
+          type: integer
+          description: 'Lead ID in the URL path.'
+        - in: body
+          name: POC details
+          description: "Details of the POC"
+          required: true
+          schema:
+            type: object
+            properties:
+              lead_id:
+                type: string
+                description: "ID of the lead of the POC"
+              name:
+                type: string
+                description: "Name of the POC"
+              age:
+                type: string
+                description: "Age of the POC"
+              gender:
+                type: string
+                description: "Gender of the POC"
+              role:
+                type: string
+                description: "Role of the POC"
+              mobile:
+                type: string
+                description: "Mobile number of POC"
+              email:
+                type: string
+                description: "Email of the POC"
+              from_date:
+                type: string
+                format: date
+                description: "POC start date"
+              end_date:
+                type: string
+                format: date
+                description: "POC end date"
+
+            required:
+              - lead_id
+              - name
+              - age
+              - gender
+              - role
+              - from_date
+      responses:
+        200:
+          description: "POC recorded successfully"

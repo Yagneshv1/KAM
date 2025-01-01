@@ -36,7 +36,6 @@ export class AddLeadDialogComponent implements OnInit {
   onSubmit() {
     const leadData: any = {
       name: this.form.get('name')?.value,
-      status: 'New',
       address: this.form.get('address')?.value,
       city: this.form.get('city')?.value,
       state: this.form.get('state')?.value,
