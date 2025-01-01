@@ -32,7 +32,8 @@ export class LoginComponent {
 
       const timeLeftToExpire = this.getTimeLeftBeforeExpiration(response.access_token)
       setTimeout(()=>{
-        this.openSessionEndedDialog()
+        if (this.authService.getToken())
+          this.openSessionEndedDialog()
       }, timeLeftToExpire)
       
       this.loginMessage = 'Login Successful! Redirecting to home page...'

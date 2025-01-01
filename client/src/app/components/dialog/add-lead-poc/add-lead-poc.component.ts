@@ -23,10 +23,10 @@ export class AddLeadPocDialogComponent implements OnInit {
             age: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
             role: ['', Validators.required],
             gender: ['', Validators.required],
-            mobile: ['', Validators.minLength(10)],
+            mobile: [null, Validators.minLength(10)],
             email: ['', Validators.email],
             from_date: ['', Validators.required],
-            to_date: [''],
+            to_date: [null],
             isPresent: ['']
         });
 

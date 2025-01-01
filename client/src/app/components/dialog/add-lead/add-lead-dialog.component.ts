@@ -42,6 +42,7 @@ export class AddLeadDialogComponent implements OnInit {
       state: this.form.get('state')?.value,
       pincode: +this.form.get('pincode')?.value,
       email: this.form.get('email')?.value,
+      mobile: this.form.get('mobile')?.value,
       website: this.form.get('website')?.value,
       domain: this.form.get('domain')?.value,
       call_frequency: this.form.get('call_frequency')?.value

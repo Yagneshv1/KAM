@@ -105,8 +105,8 @@ def get_leads():
     else:
         leadData = request.get_json()
         query = text('''insert into leads(lead_name, lead_status, lead_address, lead_city, lead_state, lead_pincode, 
-                     email, website, lead_domain, call_frequency, last_call) 
-                     values(:name, :status, :address, :city, :state, :pincode, :email, :website, :domain, :call_frequency, null)''')
+                     email, mobile, website, lead_domain, call_frequency, last_call) 
+                     values(:name, :status, :address, :city, :state, :pincode, :email, :mobile, :website, :domain, :call_frequency, null)''')
 
         db_instance.execute_ddl_and_dml_commands(query, leadData)
         return jsonify({"message": "Lead added successfully!", "status": "success"}), 200
@@ -131,10 +131,10 @@ def get_lead_poc(id):
         pocData = request.get_json()
         pocData['lead_id'] = int(id)
         pocData['from_date'] = date(*convertDateStringToParts(pocData['from_date']))
-        pocData['to_date'] = date(*convertDateStringToParts(pocData['to_date']))
+        pocData['to_date'] = date(*convertDateStringToParts(pocData['to_date'])) if pocData.get('to_date') else None
 
-        query = text('''insert into Pocs(lead_id, poc_name, poc_age, poc_gender, poc_mobile, poc_email, poc_from, poc_to)
-                     values(:lead_id, :name, :age, :gender, :mobile, :email, :from_date, :to_date)''')
+        query = text('''insert into Pocs(lead_id, poc_name, poc_age, poc_gender, poc_role, poc_mobile, poc_email, poc_from, poc_to)
+                     values(:lead_id, :name, :age, :gender, :role, :mobile, :email, :from_date, :to_date)''')
 
         db_instance.execute_ddl_and_dml_commands(query, pocData)
         return jsonify({"message": "POC is added successfully!", "status": "success"}), 200
@@ -224,11 +224,11 @@ def get_performance_metrics():
 
 class PostgresqlDB:
     def __init__(self):
-        self.username = 'postgres'
-        self.password = 'XrhVUb2q$'
-        self.host = 'udaan-kam.cxms2842cvb4.eu-north-1.rds.amazonaws.com'
-        self.port = 5432
-        self.db_name = 'udaan-kam'
+        self.username = 'postgres.kaupwhsakwbxrztaguya'
+        self.password = 'HUDgxKWszahJn6V8'
+        self.host = 'aws-0-ap-south-1.pooler.supabase.com'
+        self.port = 6543
+        self.db_name = 'postgres'
         self.engine = self.get_db_engine()
 
     def get_db_engine(self):
@@ -254,16 +254,16 @@ class PostgresqlDB:
         connection = self.engine.connect()
         trans = connection.begin()
 
-        try:
-            if values is not None:
-                connection.execute(statement, values)
-            else:
-                connection.execute(statement)
-            trans.commit()
-            connection.close()        
-        except Exception as e:
-            connection.rollback()
-            connection.close()
+        # try:
+        if values is not None:
+            connection.execute(statement, values)
+        else:
+            connection.execute(statement)
+        trans.commit()
+        connection.close()        
+        # except Exception as e:
+        #     connection.rollback()
+        #     connection.close()
 
 
 if __name__=='__main__':
