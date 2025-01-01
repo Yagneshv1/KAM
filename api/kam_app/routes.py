@@ -86,7 +86,7 @@ def get_leads():
 
             if compact:
                 query = text('''with leads_info as (
-                            select lead_id, lead_name, lead_id, poc_name, poc_id from leads natural join pocs)
+                            select lead_id, lead_name, poc_name, poc_id from leads natural join pocs)
                             select json_agg(leads_info) from leads_info''')
             else:
                 query = text("SELECT json_agg(leads) from leads")
@@ -152,7 +152,7 @@ def get_lead_poc(id):
 @app.route('/api/lead/<int:id>/poc-info', methods=['PUT'])
 @jwt_required()
 def update_lead_poc(id):
-    # try:
+    try:
         db_instance = PostgresqlDB()
         pocData = request.get_json()
         print(pocData)
@@ -165,10 +165,10 @@ def update_lead_poc(id):
 
         db_instance.execute_ddl_and_dml_commands(query, pocData)
         return jsonify({"message": "POC is updated successfully!"}), 204
-    # except SQLAlchemyError as e:
-    #     handle_errors(e, True)
-    # except Exception as e:
-    #     handle_errors(e)
+    except SQLAlchemyError as e:
+        handle_errors(e, True)
+    except Exception as e:
+        handle_errors(e)
 
 @app.route('/api/interactions', methods=['GET', 'POST'])
 @jwt_required()

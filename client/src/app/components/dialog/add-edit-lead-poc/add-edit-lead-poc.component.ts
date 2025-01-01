@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-add-lead-dialog',
-  templateUrl: './add-lead-poc.component.html',
-  styleUrls: ['./add-lead-poc.component.css']
+  selector: 'app-add-edit-lead-dialog',
+  templateUrl: './add-edit-lead-poc.component.html',
+  styleUrls: ['./add-edit-lead-poc.component.css']
 })
 export class AddEditLeadPocDialogComponent implements OnInit {
     @Output() dataSubmitted = new EventEmitter<any>();

@@ -38,8 +38,12 @@ export class AddInteractionDialogComponent implements OnInit {
 
         this.leadService.getLeadsData(true).subscribe((res: any) => {
           this.leadPocData = res.data
+          let uniqueLeadIds = new Set<number>();
           this.leadPocData.map((lead: any) => {
-            this.leadsInfo.push({leadId: lead.lead_id, leadName: lead.lead_name})
+            if (!uniqueLeadIds.has(lead.lead_id)) {
+              uniqueLeadIds.add(lead.lead_id)
+              this.leadsInfo.push({leadId: lead.lead_id, leadName: lead.lead_name})
+            }
           })
         })
 
