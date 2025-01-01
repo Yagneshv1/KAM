@@ -95,7 +95,7 @@ def get_leads():
             return jsonify({"data": convertJSONAggToList(leads), "message": "Leads records fetched successfully!"}), 200
         else:
             leadData = request.get_json()
-            leadData['lead_status'] = 'New'
+            leadData['status'] = 'New'
             query = text('''insert into leads(lead_name, lead_status, lead_address, lead_city, lead_state, lead_pincode, 
                         email, mobile, website, lead_domain, call_frequency, last_call) 
                         values(:name, :status, :address, :city, :state, :pincode, :email, :mobile, :website, :domain, :call_frequency, null)''')

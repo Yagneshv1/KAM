@@ -192,7 +192,8 @@ RETURNS TABLE (
 $$
 BEGIN
     RETURN QUERY
-        SELECT lead_name, email, mobile, poc_name, poc_email, poc_mobile FROM leads natural join pocs
+        SELECT lead_name, email, mobile, poc_name, poc_email, poc_mobile FROM leads left join pocs 
+        ON leads.lead_id = pocs.lead_id
         WHERE 
         lead_status != 'Lost' AND
         (last_call is null OR

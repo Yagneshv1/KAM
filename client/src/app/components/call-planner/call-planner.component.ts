@@ -65,7 +65,7 @@ export class CallPlannerComponent {
             wrapText:true,
         },
         { 
-            field: 'leadmobile',
+            field: 'pocmobile',
             headerName: "POC Mobile", 
             filter: 'agTextColumnFilter',
             filterParams: {
