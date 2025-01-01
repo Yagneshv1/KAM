@@ -2,5 +2,9 @@
     <mat-spinner class="spinner"></mat-spinner>
 </div>
 <div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <div class="color-box" style="background-color: lightgreen;"></div><span>Good performance</span><br>
+        <div class="color-box" style="background-color: pink;"></div><span>Underperforming</span><br>
+    </div>
     <app-table  style="height: 90vh;" [rowData]="rowData" [columnDefs]="columnDefs"></app-table>
 </div>
