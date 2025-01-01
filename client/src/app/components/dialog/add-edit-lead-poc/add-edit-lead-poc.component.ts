@@ -1,34 +1,38 @@
-import { Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-lead-dialog',
   templateUrl: './add-lead-poc.component.html',
   styleUrls: ['./add-lead-poc.component.css']
 })
-export class AddLeadPocDialogComponent implements OnInit {
+export class AddEditLeadPocDialogComponent implements OnInit {
     @Output() dataSubmitted = new EventEmitter<any>();
 
     form!: FormGroup;
-    constructor(private dialogRef: MatDialogRef<AddLeadPocDialogComponent>,
-        private fb: FormBuilder
+    constructor(private dialogRef: MatDialogRef<AddEditLeadPocDialogComponent>,
+        private fb: FormBuilder,
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-
+      console.log(this.data)
     }
     
     ngOnInit() {
         this.form = this.fb.group({
-            name: ['', Validators.required],
-            age: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
-            role: ['', Validators.required],
-            gender: ['', Validators.required],
-            mobile: [null, Validators.minLength(10)],
-            email: ['', Validators.email],
-            from_date: ['', Validators.required],
-            to_date: [null],
-            isPresent: ['']
+            name: [this.data?.poc_name || '', Validators.required],
+            age: [this.data?.poc_age || '', [Validators.required, Validators.min(0), Validators.max(100)]],
+            role: [this.data?.poc_role || '', Validators.required],
+            gender: [this.data?.poc_gender || '', Validators.required],
+            mobile: [this.data?.poc_mobile || null, Validators.minLength(10)],
+            email: [this.data?.poc_email || '', Validators.email],
+            from_date: [this.data?.poc_from || '', Validators.required],
+            to_date: [this.data?.poc_to || null],
+            isPresent: [this.data?.poc_to ? false : true]
         });
+
+        if (this.form.get('isPresent'))
+            this.form.get('to_date')?.disable()
 
         this.form.get('isPresent')?.valueChanges.subscribe((isPresent) => {
           if (isPresent) {

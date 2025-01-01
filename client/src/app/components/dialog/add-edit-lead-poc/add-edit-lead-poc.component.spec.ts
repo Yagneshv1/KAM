@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AddLeadPocDialogComponent } from './add-lead-poc.component';
+import { AddLeadPocDialogComponent } from './add-edit-lead-poc.component';
 
 describe('AddLeadPocDialogComponent', () => {
   let component: AddLeadPocDialogComponent;

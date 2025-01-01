@@ -149,6 +149,27 @@ def get_lead_poc(id):
     except Exception as e:
         handle_errors(e)
 
+@app.route('/api/lead/<int:id>/poc-info', methods=['PUT'])
+@jwt_required()
+def update_lead_poc(id):
+    # try:
+        db_instance = PostgresqlDB()
+        pocData = request.get_json()
+        print(pocData)
+        pocData['lead_id'] = int(id)
+        pocData['from_date'] = date(*convertDateStringToParts(pocData['from_date']))
+        pocData['to_date'] = date(*convertDateStringToParts(pocData['to_date'])) if pocData.get('to_date') else None
+
+        query = text('''update Pocs set lead_id=:lead_id, poc_name=:name, poc_age=:age, poc_gender=:gender, poc_role=:role, 
+                        poc_mobile=:mobile, poc_email=:email, poc_from=:from_date, poc_to=:to_date WHERE poc_id=:poc_id''')
+
+        db_instance.execute_ddl_and_dml_commands(query, pocData)
+        return jsonify({"message": "POC is updated successfully!"}), 204
+    # except SQLAlchemyError as e:
+    #     handle_errors(e, True)
+    # except Exception as e:
+    #     handle_errors(e)
+
 @app.route('/api/interactions', methods=['GET', 'POST'])
 @jwt_required()
 def get_interactions():

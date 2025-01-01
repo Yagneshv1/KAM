@@ -32,4 +32,8 @@ export class LeadService {
     addNewPoc(leadId: string, pocData: any) {
         return this.httpClient.post(`${this.apiUrl}/lead/${leadId}/poc-info`, pocData)
     }
+
+    updateLeadPoc(leadId: string, pocData:any) {
+        return this.httpClient.put(`${this.apiUrl}/lead/${leadId}/poc-info`, pocData)
+    }
 }

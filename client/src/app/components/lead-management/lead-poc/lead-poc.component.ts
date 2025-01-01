@@ -3,8 +3,9 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LeadService } from 'src/app/services/lead.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
-import { AddLeadPocDialogComponent } from '../../dialog/add-lead-poc/add-lead-poc.component';
+import { AddEditLeadPocDialogComponent } from '../../dialog/add-edit-lead-poc/add-edit-lead-poc.component';
 import { IDateFilterParams } from 'ag-grid-enterprise';
+import { EditLeadPocRendererComponent } from '../../dialog/edit-poc/edit-poc.component';
 
 @Component({
   selector: 'app-lead-poc',
@@ -13,6 +14,11 @@ import { IDateFilterParams } from 'ag-grid-enterprise';
 })
 export class LeadPocComponent {
    columnDefs = [
+        {
+            headerName: '',
+            cellRenderer: EditLeadPocRendererComponent,
+            minWidth: 100
+        },
         { 
             field: 'poc_name',
             headerName: "Name", 
@@ -150,7 +156,7 @@ export class LeadPocComponent {
 
     onAddNewPoc() {
         const dialogConfig = new MatDialogConfig();
-        const dialogRef = this.dialog.open(AddLeadPocDialogComponent, dialogConfig);
+        const dialogRef = this.dialog.open(AddEditLeadPocDialogComponent, dialogConfig);
         dialogRef.componentInstance.dataSubmitted.subscribe((pocData: any)=>{
             this.isLoading = true;
             this.leadService.addNewPoc(this.leadId, pocData).subscribe((res: any) => {

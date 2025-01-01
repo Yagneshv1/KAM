@@ -1,5 +1,5 @@
 <div class="dialog-size-alignment" mat-dialog-content [formGroup]="form">
-    <h2 style="display: flex; justify-content: center;">Add New POC Details</h2>
+    <h2 style="display: flex; justify-content: center;">{{data ? 'Edit' : 'Add'}}&nbsp;POC Details</h2>
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name">
@@ -40,5 +40,5 @@
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button (click)="onNoClick()">Cancel</button>
-    <button mat-raised-button (click)="onSubmit()" [disabled]="this.form.invalid" color="primary">Add</button>
+    <button mat-raised-button (click)="onSubmit()" [disabled]="this.form.invalid" color="primary">{{data ? 'Edit' : 'Add'}}</button>
 </div>
