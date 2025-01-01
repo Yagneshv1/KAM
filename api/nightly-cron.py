@@ -4,11 +4,11 @@ from sqlalchemy.engine import create_engine
 
 class PostgresqlDB:
     def __init__(self):
-        self.username = 'postgres'
-        self.password = 'XrhVUb2q$'
-        self.host = 'udaan-kam.cxms2842cvb4.eu-north-1.rds.amazonaws.com'
-        self.port = 5432
-        self.db_name = 'udaan-kam'
+        self.username = 'postgres.kaupwhsakwbxrztaguya'
+        self.password = 'HUDgxKWszahJn6V8'
+        self.host = 'aws-0-ap-south-1.pooler.supabase.com'
+        self.port = 6543
+        self.db_name = 'postgres'
         self.engine = self.get_db_engine()
 
     def get_db_engine(self):
@@ -33,7 +33,6 @@ class PostgresqlDB:
         except Exception as e:
             connection.rollback()
             connection.close()
-
 
 if __name__=='__main__':
     db_instance = PostgresqlDB()

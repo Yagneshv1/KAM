@@ -254,16 +254,16 @@ class PostgresqlDB:
         connection = self.engine.connect()
         trans = connection.begin()
 
-        # try:
-        if values is not None:
-            connection.execute(statement, values)
-        else:
-            connection.execute(statement)
-        trans.commit()
-        connection.close()        
-        # except Exception as e:
-        #     connection.rollback()
-        #     connection.close()
+        try:
+            if values is not None:
+                connection.execute(statement, values)
+            else:
+                connection.execute(statement)
+            trans.commit()
+            connection.close()        
+        except Exception as e:
+            connection.rollback()
+            connection.close()
 
 
 if __name__=='__main__':
