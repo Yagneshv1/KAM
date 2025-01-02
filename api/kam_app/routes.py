@@ -35,9 +35,9 @@ def login():
         else:
             return jsonify({"message": "No user found! Please signup first."}), 401
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-        handle_errors(e)
+        return handle_errors(e)
 
 
 @app.route('/api/signup', methods=['POST'])
@@ -71,9 +71,9 @@ def signup():
         return jsonify({"message": "User registered successfully!"}), 201
     
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-       handle_errors(e)
+       return handle_errors(e)
 
 @app.route('/api/leads', methods=['GET', 'POST'])
 @jwt_required()
@@ -103,9 +103,9 @@ def get_leads():
             db_instance.execute_ddl_and_dml_commands(query, leadData)
             return jsonify({"message": "Lead added successfully!"}), 201
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-        handle_errors(e)
+        return handle_errors(e)
 
 @app.route('/api/leads', methods=['PUT'])
 @jwt_required()
@@ -120,9 +120,9 @@ def update_leads():
         db_instance.execute_ddl_and_dml_commands(query, leadData)
         return jsonify({"message": "Lead updated successfully!"}), 204
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-        handle_errors(e)
+        return handle_errors(e)
     
 @app.route('/api/lead/<int:id>/poc-info', methods=['GET', 'POST'])
 @jwt_required()
@@ -145,9 +145,9 @@ def get_lead_poc(id):
             db_instance.execute_ddl_and_dml_commands(query, pocData)
             return jsonify({"message": "POC is added successfully!"}), 201
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-        handle_errors(e)
+        return handle_errors(e)
 
 @app.route('/api/lead/<int:id>/poc-info', methods=['PUT'])
 @jwt_required()
@@ -166,9 +166,9 @@ def update_lead_poc(id):
         db_instance.execute_ddl_and_dml_commands(query, pocData)
         return jsonify({"message": "POC is updated successfully!"}), 204
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-        handle_errors(e)
+        return handle_errors(e)
 
 @app.route('/api/interactions', methods=['GET', 'POST'])
 @jwt_required()
@@ -197,9 +197,9 @@ def get_interactions():
             )
             return jsonify({"message": "Interaction added successfully!"}), 201
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-        handle_errors(e)
+        return handle_errors(e)
 
 
 @app.route('/api/call-planner', methods=['GET'])
@@ -214,9 +214,9 @@ def get_call_planner():
         calls = db_instance.execute_dql_commands(query).fetchone()
         return jsonify({"data": convertJSONAggToList(calls), "message": "Call Planner fetched successfully!"}), 200
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-        handle_errors(e)
+        return handle_errors(e)
    
 
 @app.route('/api/performance-metrics', methods=['GET'])
@@ -231,6 +231,6 @@ def get_performance_metrics():
         performance = db_instance.execute_dql_commands(query).fetchone()
         return jsonify({"data": convertJSONAggToList(performance), "message": "Performance metrics retrieved successfully!"}), 200
     except SQLAlchemyError as e:
-        handle_errors(e, True)
+        return handle_errors(e, True)
     except Exception as e:
-        handle_errors(e)
+        return handle_errors(e)
