@@ -1,0 +1,7 @@
+flask
+Flask-Cors
+Flask-Bcrypt
+flask-jwt-extended
+Flask-RESTful
+flasgger
+sqlalchemy
