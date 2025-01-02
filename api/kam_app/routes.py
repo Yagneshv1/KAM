@@ -86,7 +86,7 @@ def get_leads():
 
             if compact:
                 query = text('''with leads_info as (
-                            select lead_id, lead_name, poc_name, poc_id from leads natural join pocs)
+                            select leads.lead_id, lead_name, poc_name, poc_id from leads left join pocs on leads.lead_id = pocs.lead_id)
                             select json_agg(leads_info) from leads_info''')
             else:
                 query = text("SELECT json_agg(leads) from leads")

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
 import { InteractionService } from 'src/app/services/interaction.service';
-import { AddInteractionDialogComponent } from '../dialog/add-interaction/add-interaction-dialog.component';
+import { AddInteractionDialogComponent } from '../dialog/addInteraction/addInteractionDialog.component';
 import { IDateFilterParams } from 'ag-grid-enterprise';
 
 @Component({

@@ -3,7 +3,7 @@ import { InteractionsComponent } from './interactions.component';
 import { InteractionService } from 'src/app/services/interaction.service';
 import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
-import { AddInteractionDialogComponent } from '../dialog/add-interaction/add-interaction-dialog.component';
+import { AddInteractionDialogComponent } from '../dialog/addInteraction/addInteractionDialog.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';

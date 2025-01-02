@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './components/login-page/login-page.component';
+import { LoginComponent } from './components/loginPage/loginPage.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -18,27 +18,28 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 import {MatTreeModule} from '@angular/material/tree';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { SignUpComponent } from './components/signUp/signUp.component';
 import { DashBoardComponent } from './components/dashboard/dashboard.component';
-import { LeadManagementComponent } from './components/lead-management/lead-management.component';
+import { LeadManagementComponent } from './components/leadManagement/leadManagement.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { TableComponent } from './components/table/table.component';
 import { registerAllModules } from 'handsontable/registry';
-import { AddEditLeadDialogComponent } from './components/dialog/add-edit-lead/add-edit-lead-dialog.component';
-import { LeadSummaryComponent } from './components/lead-management/lead-summary/lead-summary.component';
-import { LeadPocComponent } from './components/lead-management/lead-poc/lead-poc.component';
-import { AddEditLeadPocDialogComponent } from './components/dialog/add-edit-lead-poc/add-edit-lead-poc.component';
+import { AddEditLeadDialogComponent } from './components/dialog/addEditLead/addEditLeadDialog.component';
+import { LeadSummaryComponent } from './components/leadManagement/leadSummary/leadSummary.component';
+import { LeadPocComponent } from './components/leadManagement/leadPoc/leadPoc.component';
+import { AddEditLeadPocDialogComponent } from './components/dialog/adEditLeadPoc/addEditLeadPoc.component';
 import { InteractionsComponent } from './components/interactions/interactions.component';
-import { AddInteractionDialogComponent } from './components/dialog/add-interaction/add-interaction-dialog.component';
-import { CallPlannerComponent } from './components/call-planner/call-planner.component';
-import { PerformanceComponent } from './components/performance-metrics/performance-metrics.component';
+import { AddInteractionDialogComponent } from './components/dialog/addInteraction/addInteractionDialog.component';
+import { CallPlannerComponent } from './components/callPlanner/callPlanner.component';
+import { PerformanceComponent } from './components/performanceMetrics/performanceMetrics.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './authInterceptor';
 import { ModuleRegistry } from 'ag-grid-community';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { SessionEndedDialogComponent } from './components/dialog/session-ended-dialog/sessionEndedDialog.component';
-import { EditLeadRendererComponent } from './components/dialog/edit-lead/edit-lead.component';
+import { SessionEndedDialogComponent } from './components/dialog/sessionEndedDialog/sessionEndedDialog.component';
+import { EditLeadRendererComponent } from './components/dialog/editLead/editLead.component';
+import { EditLeadPocRendererComponent } from './components/dialog/editPoc/editPoc.component';
 
 ModuleRegistry.registerModules([SetFilterModule]);
 registerAllModules();
@@ -60,7 +61,8 @@ registerAllModules();
     CallPlannerComponent,
     PerformanceComponent,
     SessionEndedDialogComponent,
-    EditLeadRendererComponent
+    EditLeadRendererComponent,
+    EditLeadPocRendererComponent
   ],
   imports: [
     BrowserAnimationsModule,

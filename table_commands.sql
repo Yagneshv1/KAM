@@ -271,6 +271,8 @@ BEGIN
         SET lead_status = 'Converted'
         WHERE lead_id = p_lead_id;
     END IF;
+
+    CALL update_lead_status_nightly();
 END;
 $$;
 

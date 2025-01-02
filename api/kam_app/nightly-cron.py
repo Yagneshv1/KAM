@@ -19,7 +19,7 @@ class PostgresqlDB:
             print("Error connecting to the database")
             raise e
     
-    def execute_ddl_and_dml_commands(self, statement, values):
+    def execute_ddl_and_dml_commands(self, statement, values=None):
         connection = self.engine.connect()
         trans = connection.begin()
 

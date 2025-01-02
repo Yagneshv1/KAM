@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/login-page/login-page.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { LoginComponent } from './components/loginPage/loginPage.component';
+import { SignUpComponent } from './components/signUp/signUp.component';
 import { AuthGuard } from './guards/auth.guard';
-import { LeadSummaryComponent } from './components/lead-management/lead-summary/lead-summary.component';
-import { LeadManagementComponent } from './components/lead-management/lead-management.component';
+import { LeadSummaryComponent } from './components/leadManagement/leadSummary/leadSummary.component';
+import { LeadManagementComponent } from './components/leadManagement/leadManagement.component';
 import { InteractionsComponent } from './components/interactions/interactions.component';
-import { CallPlannerComponent } from './components/call-planner/call-planner.component';
-import { PerformanceComponent } from './components/performance-metrics/performance-metrics.component';
+import { CallPlannerComponent } from './components/callPlanner/callPlanner.component';
+import { PerformanceComponent } from './components/performanceMetrics/performanceMetrics.component';
 
 const routes: Routes = [
   {

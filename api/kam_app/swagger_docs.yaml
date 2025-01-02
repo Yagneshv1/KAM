@@ -171,6 +171,76 @@ paths:
         500:
           description: "Internal Server Error"
 
+    put:
+      summary: "Updates data of a lead"
+      parameters:
+        - in: body
+          name: Lead details
+          description: "Basic details of the lead"
+          required: true
+          schema:
+            type: object
+            properties:
+              lead_id:
+                type: integer
+                description: "ID of the lead to update"
+              name:
+                type: string
+                description: "Name of the lead"
+              address:
+                type: string
+                description: "Address of the lead"
+              city:
+                type: string
+                description: "City of the lead"
+              state:
+                type: string
+                description: "State of the lead"
+              pincode:
+                type: integer
+                description: "Pincode of the lead"
+              email:
+                type: string
+                description: "Email ID of the lead"
+              mobile:
+                type: string
+                description: "Mobile no of the lead"
+              website:
+                type: string
+                description: "Website of the lead"
+              domain:
+                type: string
+                description: "Domain(style) of the lead"
+              call_frequency:
+                type: string
+                enum:
+                  - Daily
+                  - Weekly
+                  - Bi-Weekly
+                  - Semi-Monthly
+                  - Monthly
+                  - Quarterly
+                  - Yearly
+                description: "Frequency of contacting the lead"
+
+            required:
+              - lead_id
+              - name
+              - address
+              - city
+              - state
+              - pincode
+              - email
+              - mobile
+              - call_frequency
+      responses:
+        204:
+          description: "Lead updated successfully"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
+
   /api/performance-metrics:
     get:
       summary: "Get the performance trends of the leads"
@@ -324,6 +394,70 @@ paths:
       responses:
         201:
           description: "POC recorded successfully"
+        401:
+          description: "Authorization Failed"
+        500:
+          description: "Internal Server Error"
+
+    put:
+      summary: "Updates the data of POC for a lead"
+      parameters:
+        - in: path
+          name: lead_id
+          required: true
+          type: integer
+          description: 'Lead ID in the URL path.'
+        - in: body
+          name: POC details
+          description: "Details of the POC"
+          required: true
+          schema:
+            type: object
+            properties:
+              poc_id:
+                type: integer
+                description: "POC ID to update data"
+              lead_id:
+                type: string
+                description: "ID of the lead of the POC"
+              name:
+                type: string
+                description: "Name of the POC"
+              age:
+                type: string
+                description: "Age of the POC"
+              gender:
+                type: string
+                description: "Gender of the POC"
+              role:
+                type: string
+                description: "Role of the POC"
+              mobile:
+                type: string
+                description: "Mobile number of POC"
+              email:
+                type: string
+                description: "Email of the POC"
+              from_date:
+                type: string
+                format: date
+                description: "POC start date"
+              end_date:
+                type: string
+                format: date
+                description: "POC end date"
+
+            required:
+              - lead_id
+              - name
+              - age
+              - gender
+              - role
+              - from_date
+              - poc_id
+      responses:
+        204:
+          description: "POC data updated successfully"
         401:
           description: "Authorization Failed"
         500:
