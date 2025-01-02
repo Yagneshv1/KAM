@@ -103,6 +103,21 @@ Deployed Application Link - https://kam-app-git-master-yagneshs-projects-baecd0b
 - Click on "Deploy Web Service" and the Render automatically builds the application and returns the deployed production URL of the backend server once it is live.
 
 
+## Running Unit Tests
+
+To run the unit tests of the UI, run the following commands:
+
+    $ cd KAM/client
+
+    $ ng test
+
+It will open up a window in the browser that shows the results of each unit test.
+
+To run the tests along with the code coverage run the following command instead.
+
+    $ ng test --code-coverage
+
+
 ## Usage Guidelines
 
 - Open the UI interface from the [deployment link](https://kam-app-git-master-yagneshs-projects-baecd0b4.vercel.app).
