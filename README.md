@@ -135,7 +135,17 @@ The Entity-Relationship diagram(ER diagram) used to model the KAM system is as f
 
 [ER diagram](https://drive.google.com/file/d/1-Kv6xZoK8mR8FELN8v_xGPwRV_6qYUT_/view)
 
--- Components involved and interaction(tables)
+### Salient features of the designed system
+
+- Every Poc is always associated with a lead and a lead can have multiple Pocs with different roles.
+
+- Each interaction requires a poc always and can have multiple Pocs especially when Email is used as communication medium.
+
+- Every order placed in the system has to be facilitated by a Poc and should have an associated interaction.
+
+- Each order should be associated with a lead(restaurant) and group ordering by the leads is not permitted.
+
+- Every lead has performance metrics for each month in which orders are placed to keep track of the trends and the performance over time.
 
 
 ### Design Decisions
@@ -150,7 +160,7 @@ The Entity-Relationship diagram(ER diagram) used to model the KAM system is as f
 
 ## Sample Usage
 
-
+-- Link for app usage
 
 ## Roadmap
 
@@ -177,5 +187,5 @@ The Entity-Relationship diagram(ER diagram) used to model the KAM system is as f
 
 ## Authors
 
-Yagnesh Katragadda, Associate Software Engineer
+(02/01/2025) Yagnesh Katragadda, Associate Software Engineer II 
 
