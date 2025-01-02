@@ -26,6 +26,7 @@ def login():
         })
 
         user = result.fetchone()
+        # Check if a user exists with the provided name
         if user:
             if bcrypt.check_password_hash(user[2], login_credentials.get('password')):
                 access_token = create_access_token(identity=login_credentials.get('username'), expires_delta=datetime.timedelta(minutes=30))
@@ -54,6 +55,7 @@ def signup():
             return jsonify({"message": "Username already exists. Continue login or choose a different username."}), 409
         
         dob_values = convertDateStringToParts(user_details.get('dob'))
+        # Parameters in the SQL query to store the user data
         parameters = {
             'username': user_details.get('username'),
             'password': bcrypt.generate_password_hash(user_details.get('password')).decode('utf-8'),
@@ -81,7 +83,7 @@ def get_leads():
     try:
         db_instance = PostgresqlDB()
         if request.method == 'GET':
-            compact = request.args.get('compact')
+            compact = request.args.get('compact') # Compact mode returns only the basic info of lead and associated POC
             query = None
 
             if compact:
@@ -110,6 +112,7 @@ def get_leads():
 @app.route('/api/leads', methods=['PUT'])
 @jwt_required()
 def update_leads():
+    # Method to update the information of an existing lead
     try:
         db_instance = PostgresqlDB()
         leadData = request.get_json()
@@ -134,6 +137,7 @@ def get_lead_poc(id):
             leads = db_instance.execute_dql_commands(query, {'id': id}).fetchone()
             return jsonify({"data": convertJSONAggToList(leads), "message": "POCs retrieved successfully!"}), 200
         else:
+            # Add a new POC for a lead with the specified ID.
             pocData = request.get_json()
             pocData['lead_id'] = int(id)
             pocData['from_date'] = date(*convertDateStringToParts(pocData['from_date']))
@@ -152,6 +156,7 @@ def get_lead_poc(id):
 @app.route('/api/lead/<int:id>/poc-info', methods=['PUT'])
 @jwt_required()
 def update_lead_poc(id):
+    # Method to update the details of a specific POC for a lead
     try:
         db_instance = PostgresqlDB()
         pocData = request.get_json()
@@ -205,6 +210,7 @@ def get_interactions():
 @app.route('/api/call-planner', methods=['GET'])
 @jwt_required()
 def get_call_planner():
+    # Fetches the basic information of the leads who needs to be contacted at the current time.
     try:
         db_instance = PostgresqlDB()
         query = text('''WITH calls_info as

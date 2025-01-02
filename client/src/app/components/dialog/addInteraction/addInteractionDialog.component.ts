@@ -39,6 +39,7 @@ export class AddInteractionDialogComponent implements OnInit {
         this.leadService.getLeadsData(true).subscribe((res: any) => {
           this.leadPocData = res.data
           let uniqueLeadIds = new Set<number>();
+          //Filter the distinct leads in the system
           this.leadPocData.map((lead: any) => {
             if (!uniqueLeadIds.has(lead.lead_id)) {
               uniqueLeadIds.add(lead.lead_id)
@@ -60,7 +61,8 @@ export class AddInteractionDialogComponent implements OnInit {
       const leadId = this.form.get('lead_id')?.value
       this.pocInfo = []
       this.leadPocData.map((lead: any) => {
-        if ( lead.lead_id == leadId)
+        // Get the POCs of the lead selected
+        if (lead.lead_id == leadId)
           this.pocInfo.push({pocName: lead.poc_name, pocId: lead.poc_id})
       })
     }

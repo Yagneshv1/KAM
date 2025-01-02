@@ -9,6 +9,7 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = os.environ['app_secret_key']
 
+# Swagger configuration
 swagger_template_path = os.path.join(os.path.dirname(__file__), 'swagger_docs.yaml')
 swagger = Swagger(app, template_file=swagger_template_path)
 

@@ -88,6 +88,7 @@ export class CallPlannerComponent {
         this.getCallPlanner()
     }
 
+    // Gets the details of leads requiring call today.
     getCallPlanner() {
         this.isLoading = true
         this.callPlannerService.getCallPlanner().subscribe((res: any) => {
