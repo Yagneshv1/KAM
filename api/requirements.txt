@@ -6,3 +6,4 @@ Flask-RESTful
 flasgger
 sqlalchemy
 psycopg2
+flask_limiter

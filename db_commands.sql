@@ -37,7 +37,7 @@ CREATE TABLE Pocs(
 
 -- Table to store the details of the interactions by KAMs
 CREATE TABLE INTERACTIONS(
-    lead_id int,
+    lead_id int not null,
     interaction_time timestamptz not null,
     interaction_mode varchar(50) not null,
     interaction_details text,
@@ -70,7 +70,7 @@ CREATE TABLE ORDERS(
 
 -- Table to store the performance of the leads over months
 CREATE TABLE PERFORMANCE_METRICS(
-    lead_id int,
+    lead_id int not null,
     measured_time timestamptz not null,
     avg_order_value numeric not null check(avg_order_value >= 0),
     order_count int not null check(order_count > 0),
