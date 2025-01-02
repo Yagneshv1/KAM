@@ -1,14 +1,15 @@
 import sqlalchemy
 from sqlalchemy.sql import text
 from sqlalchemy.engine import create_engine
+import os
 
 class PostgresqlDB:
     def __init__(self):
-        self.username = 'postgres.kaupwhsakwbxrztaguya'
-        self.password = 'HUDgxKWszahJn6V8'
-        self.host = 'aws-0-ap-south-1.pooler.supabase.com'
-        self.port = 6543
-        self.db_name = 'postgres'
+        self.username = os.environ('db_username')
+        self.password = os.environ('db_password')
+        self.host = os.environ('db_host')
+        self.port = os.environ('db_port')
+        self.db_name = os.environ('db_name')
         self.engine = self.get_db_engine()
 
     def get_db_engine(self):
