@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LeadService } from 'src/app/services/lead.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { INumberFilterParams, ITextFilterParams } from 'ag-grid-community';
-import { AddEditLeadPocDialogComponent } from '../../dialog/adEditLeadPoc/addEditLeadPoc.component';
+import { AddEditLeadPocDialogComponent } from '../../dialog/addEditLeadPoc/addEditLeadPoc.component';
 import { IDateFilterParams } from 'ag-grid-enterprise';
 import { EditLeadPocRendererComponent } from '../../dialog/editPoc/editPoc.component';
 

@@ -27,7 +27,7 @@ import { registerAllModules } from 'handsontable/registry';
 import { AddEditLeadDialogComponent } from './components/dialog/addEditLead/addEditLeadDialog.component';
 import { LeadSummaryComponent } from './components/leadManagement/leadSummary/leadSummary.component';
 import { LeadPocComponent } from './components/leadManagement/leadPoc/leadPoc.component';
-import { AddEditLeadPocDialogComponent } from './components/dialog/adEditLeadPoc/addEditLeadPoc.component';
+import { AddEditLeadPocDialogComponent } from './components/dialog/addEditLeadPoc/addEditLeadPoc.component';
 import { InteractionsComponent } from './components/interactions/interactions.component';
 import { AddInteractionDialogComponent } from './components/dialog/addInteraction/addInteractionDialog.component';
 import { CallPlannerComponent } from './components/callPlanner/callPlanner.component';

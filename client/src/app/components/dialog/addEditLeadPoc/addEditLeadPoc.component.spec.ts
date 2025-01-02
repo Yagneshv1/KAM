@@ -1,31 +1,39 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AddLeadPocDialogComponent } from './addEditLeadPoc.component';
+import { AddEditLeadPocDialogComponent } from './addEditLeadPoc.component';
+import { of } from 'rxjs';
 
 describe('AddLeadPocDialogComponent', () => {
-  let component: AddLeadPocDialogComponent;
-  let fixture: ComponentFixture<AddLeadPocDialogComponent>;
-  let mockDialogRef: jasmine.SpyObj<MatDialogRef<AddLeadPocDialogComponent>>;
+  let component: AddEditLeadPocDialogComponent;
+  let fixture: ComponentFixture<AddEditLeadPocDialogComponent>;
+  let mockDialogRef: jasmine.SpyObj<MatDialogRef<AddEditLeadPocDialogComponent>>;
 
   beforeEach(() => {
     mockDialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
 
     TestBed.configureTestingModule({
       imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatSelectModule, BrowserAnimationsModule, MatCheckboxModule],
-      declarations: [AddLeadPocDialogComponent],
+      declarations: [AddEditLeadPocDialogComponent],
       providers: [
-        { provide: MatDialogRef, useValue: mockDialogRef }
+        { provide: MatDialogRef, useValue: mockDialogRef },
+        { provide: MAT_DIALOG_DATA, useValue: { someData: 'mocked data' }},
+        {provide: MatDialog, useValue: {
+            open: jasmine.createSpy('open').and.returnValue({
+              afterClosed: () => of('some result')
+            })
+          }
+        }
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AddLeadPocDialogComponent);
+    fixture = TestBed.createComponent(AddEditLeadPocDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

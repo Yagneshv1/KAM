@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { LeadService } from 'src/app/services/lead.service';
 import { LeadPocComponent } from '../../leadManagement/leadPoc/leadPoc.component';
-import { AddEditLeadPocDialogComponent } from '../adEditLeadPoc/addEditLeadPoc.component';
+import { AddEditLeadPocDialogComponent } from '../addEditLeadPoc/addEditLeadPoc.component';
 
 @Component({
   selector: 'app-edit-lead',
