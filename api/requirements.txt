@@ -5,3 +5,4 @@ flask-jwt-extended
 Flask-RESTful
 flasgger
 sqlalchemy
+psycopg2
