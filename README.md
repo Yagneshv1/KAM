@@ -134,6 +134,7 @@ The basic design of the KAM system involves a friendly interface for the KAM int
 The Entity-Relationship diagram(ER diagram) used to model the KAM system is as follows:
 
 -- DB design
+![alt text](https://drive.google.com/file/d/1-Kv6xZoK8mR8FELN8v_xGPwRV_6qYUT_/view)
 
 -- Components involved and interaction(tables)
 
