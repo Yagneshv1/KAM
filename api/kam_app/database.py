@@ -5,11 +5,11 @@ import os
 
 class PostgresqlDB:
     def __init__(self):
-        self.username = os.environ('db_username')
-        self.password = os.environ('db_password')
-        self.host = os.environ('db_host')
-        self.port = os.environ('db_port')
-        self.db_name = os.environ('db_name')
+        self.username = os.environ['db_username']
+        self.password = os.environ['db_password']
+        self.host = os.environ['db_host']
+        self.port = os.environ['db_port']
+        self.db_name = os.environ['db_name']
         self.engine = self.get_db_engine()
 
     def get_db_engine(self):
