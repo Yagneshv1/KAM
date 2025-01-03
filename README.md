@@ -102,6 +102,8 @@ Deployed Application Link - https://kam-app-git-master-yagneshs-projects-baecd0b
 
 - Click on "Deploy Web Service" and the Render automatically builds the application and returns the deployed production URL of the backend server once it is live.
 
+P.S: Because of the usage of free instances of the backend rendering, the API requests are delayed by 50seconds when the server is kept inactive added from the deployment end by Render which is not the case in local running.
+
 
 ## Running Unit Tests
 
@@ -173,9 +175,9 @@ The Entity-Relationship diagram(ER diagram) used to model the KAM system is as f
 
 - **SQL Vs NoSQL** - In this application, the way data is typically present has a proper structure for each of the data and using a SQL model typically helps to properly manage the relationships between the entities. Also, complex computation operations are better performed with optimisations in the SQL database. Hence, I chose **PostgreSQL** model for this system.
 
-## Sample Usage
+## Sample App Usage
 
--- Link for app usage
+[Sample app usage](https://docs.google.com/document/d/1LOYAbFvo-5TI3uhoyiolYDaU770lKyCyikMaDHK4NSk/edit?tab=t.0)
 
 ## Roadmap
 
